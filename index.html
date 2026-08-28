@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>생태 탐험 | 국립생태원 — 자연을 탐험하고 생명의 이야기를 경험하세요</title>
+  <meta name="description" content="국립생태원의 생물과 생태계를 3D 인터랙션과 드론 항공 촬영으로 탐험하는 인터랙티브 생태문화 플랫폼.">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/home.css">
+</head>
+
+<body>
+  <a class="skip-link" href="#main">본문 바로가기</a>
+
+  <header class="site-header">
+    <div class="wrap">
+      <a href="index.html" class="brand" aria-label="국립생태원 홈으로 이동">
+        <img src="assets/img/logo.png" alt="국립생태원 로고">
+      </a>
+      <nav class="main-nav" aria-label="주요 메뉴">
+        <a href="index.html" aria-current="page">생태 탐험</a>
+        <a href="species.html">생물 발견</a>
+        <a href="exhibition.html">전시·관람</a>
+        <a href="education.html">교육·연구</a>
+        <a href="data.html">생태 자료</a>
+      </nav>
+      <div class="header-tools">
+        <form class="search-box" role="search" action="species.html" method="get">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="7" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+          <input type="search" name="q" placeholder="생물·전시·프로그램 검색" aria-label="통합 검색">
+        </form>
+        <button class="nav-toggle" aria-label="메뉴 열기"
+          aria-expanded="false"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- ============================================================
+       생태 탐험 헤더 — 스크롤 스크러빙 히어로
+       텍스트/버튼/텔레메트리는 고정(sticky), 배경 이미지 프레임만 스크롤에 반응
+  ============================================================ -->
+    <section class="scrub-hero" data-frame-count="80" data-frame-path="assets/frames/scrub_">
+      <div class="scrub-stage">
+        <canvas aria-hidden="true"></canvas>
+        <img class="scrub-fallback" alt="국립생태원 상공을 비행하는 드론 항공 촬영 장면">
+        <div class="scrim" aria-hidden="true"></div>
+
+        <div class="scrub-hud">
+          <div class="wrap">
+            <div class="scrub-title">
+              <span class="eyebrow">생태 탐험 · Ecological Exploration</span>
+              <h1 data-reveal>자연을 탐험하고<br>생명의 이야기를 경험하세요</h1>
+              <p data-reveal>국립생태원 상공 드론 항공 촬영 영상을 스크롤에 따라 직접 조종하듯 탐험해보세요. 열대부터 극지까지, 5대 기후대의 생태계가 눈앞에 펼쳐집니다.</p>
+              <div class="scrub-actions" data-reveal>
+                <a href="#ecosystems" class="btn btn-amber">탐험 시작하기</a>
+                <a href="exhibition.html#reserve" class="btn btn-outline-invert">예약하기</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="wrap">
+            <div class="scrub-telemetry" aria-hidden="true">
+              <div class="t-item">
+                <span class="t-label">Altitude</span>
+                <span class="t-value" data-t-alt>38m</span>
+              </div>
+              <div class="t-item">
+                <span class="t-label">Coordinates</span>
+                <span class="t-value" data-t-coord>36.0075° N, 126.6917° E</span>
+              </div>
+              <div class="t-item">
+                <span class="t-label">Frame</span>
+                <span class="t-value" data-t-frame>01 / 80</span>
+              </div>
+              <div class="t-bar"><i data-t-bar></i></div>
+              <div class="t-item">
+                <span class="t-label">Site</span>
+                <span class="t-value">충남 서천 · 에코리움</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="scrub-scrolldown" aria-hidden="true">
+          Scroll
+          <span class="line"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+       핵심 기능: 생태 탐험 — 기획서 "생태 탐험" 기능 정의 반영
+  ============================================================ -->
+    <section class="section" id="ecosystems">
+      <div class="wrap">
+        <div class="section-head" data-reveal>
+          <span class="eyebrow">핵심 기능 · 생태 탐험</span>
+          <h2>생태계 → 생물 → 전시·교육·연구,<br>하나로 이어지는 탐험</h2>
+          <p>인터랙티브 생태지도에서 기후대를 선택하고, 지도를 확대·축소·드래그하며 서식 생물을 살펴보세요. 3D 동물에 마우스를 올리면(Hover) 반응하고, 클릭하면 관련 전시·교육·연구 콘텐츠로
+            이어집니다.</p>
+        </div>
+
+        <div class="eco-tabs" role="tablist" aria-label="생태계 기후대 선택">
+          <button class="eco-tab is-active" role="tab" aria-selected="true" data-eco-tab="tropical">열대 생태계</button>
+          <button class="eco-tab" role="tab" aria-selected="false" data-eco-tab="desert">사막 생태계</button>
+          <button class="eco-tab" role="tab" aria-selected="false" data-eco-tab="temperate">온대 생태계</button>
+          <button class="eco-tab" role="tab" aria-selected="false" data-eco-tab="polar">극지 생태계</button>
+        </div>
+
+        <div data-eco-panel="tropical">
+          <div class="species-grid">
+            <div class="card species-feature" data-reveal>
+              <div class="card-media">
+                <span class="card-tag">열대 생태계 · 3D 지도 확대·축소·드래그</span>
+                <img src="assets/img/tropical-hall-visitors.jpg" alt="에코리움 열대관 내부를 관람하는 방문객">
+              </div>
+              <div class="card-body">
+                <h3>열대우림 생태계</h3>
+                <p>지구 생물종의 절반 이상이 서식하는 생명의 보고. 마우스를 올리면 캐노피의 동물이 미세하게 반응합니다.</p>
+                <div class="link-flow">생태계<span class="arrow">→</span><b>수달</b><span class="arrow">→</span>전시·연구</div>
+              </div>
+            </div>
+            <div class="species-side">
+              <div class="card" data-reveal>
+                <div class="card-media"><img src="assets/img/otter-rock.jpg" alt="바위 위에 앉아있는 수달"></div>
+                <div class="card-body">
+                  <h3>수달 <span class="sci">Lutra lutra</span></h3>
+                  <p>멸종위기 야생생물 I급 · 강과 하천 지표종</p>
+                  <a class="card-link" href="species.html">생물 상세 보기 →</a>
+                </div>
+              </div>
+              <div class="card" data-reveal>
+                <div class="card-media"><img src="assets/img/woodpecker.jpg" alt="나무 구멍 앞의 까막딱따구리"></div>
+                <div class="card-body">
+                  <h3>까막딱따구리 <span class="sci">Dryocopus martius</span></h3>
+                  <p>천연기념물 · 숲 건강성을 알려주는 깃대종</p>
+                  <a class="card-link" href="species.html">생물 상세 보기 →</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div data-eco-panel="desert" hidden>
+          <div class="species-grid">
+            <div class="card species-feature" data-reveal>
+              <div class="card-media">
+                <span class="card-tag">사막 생태계</span>
+                <img src="assets/img/baobab-savanna.jpg" alt="사바나에 홀로 선 바오밥나무">
+              </div>
+              <div class="card-body">
+                <h3>사막·사바나 생태계</h3>
+                <p>극한의 건조 환경에서 살아가는 생명의 전략을 3D 오브젝트로 만나보세요.</p>
+                <div class="link-flow">생태계<span class="arrow">→</span><b>바오밥나무</b><span class="arrow">→</span>연구자료</div>
+              </div>
+            </div>
+            <div class="species-side">
+              <div class="card" data-reveal>
+                <div class="card-media"><img src="assets/img/baobab-savanna.jpg" alt="바오밥나무"></div>
+                <div class="card-body">
+                  <h3>바오밥나무 <span class="sci">Adansonia</span></h3>
+                  <p>줄기에 많은 물을 저장하는 생명의 나무</p>
+                  <a class="card-link" href="species.html">생물 상세 보기 →</a>
+                </div>
+              </div>
+              <div class="card" data-reveal>
+                <div class="card-media"><img src="assets/img/tree-glass-ceiling.jpg" alt="유리 천장 아래 자라는 나무"></div>
+                <div class="card-body">
+                  <h3>온실 식물</h3>
+                  <p>사막관 유리 온실에서 자생하는 식물 컬렉션</p>
+                  <a class="card-link" href="species.html">생물 상세 보기 →</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div data-eco-panel="temperate" hidden>
+          <div class="species-grid">
+            <div class="card species-feature" data-reveal>
+              <div class="card-media">
+                <span class="card-tag">온대 생태계</span>
+                <img src="assets/img/forest-family-explore.jpg" alt="숲 속을 탐험하는 가족">
+              </div>
+              <div class="card-body">
+                <h3>온대 낙엽수림 생태계</h3>
+                <p>사계절이 뚜렷한 한반도의 숲. 가족 단위 탐험 프로그램과 연결됩니다.</p>
+                <div class="link-flow">생태계<span class="arrow">→</span><b>참나무숲</b><span class="arrow">→</span>교육 프로그램
+                </div>
+              </div>
+            </div>
+            <div class="species-side">
+              <div class="card" data-reveal>
+                <div class="card-media"><img src="assets/img/woodpecker.jpg" alt="까막딱따구리"></div>
+                <div class="card-body">
+                  <h3>까막딱따구리 <span class="sci">Dryocopus martius</span></h3>
+                  <p>천연기념물 · 숲의 건강을 알리는 깃대종</p>
+                  <a class="card-link" href="species.html">생물 상세 보기 →</a>
+                </div>
+              </div>
+              <div class="card" data-reveal>
+                <div class="card-media"><img src="assets/img/insect-exhibit-kids.jpg" alt="곤충 전시를 체험하는 아이들"></div>
+                <div class="card-body">
+                  <h3>숲의 곤충들</h3>
+                  <p>낙엽 아래 살아가는 작은 이웃들을 만나보세요</p>
+                  <a class="card-link" href="species.html">생물 상세 보기 →</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div data-eco-panel="polar" hidden>
+          <div class="species-grid">
+            <div class="card species-feature" data-reveal>
+              <div class="card-media">
+                <span class="card-tag">극지 생태계</span>
+                <img src="assets/img/ecorium-dome-wide.jpg" alt="에코리움 돔 내부 전경">
+              </div>
+              <div class="card-body">
+                <h3>극지 생태계</h3>
+                <p>혹한의 환경에 적응한 생물들의 생존 전략을 인터랙티브하게 탐험합니다.</p>
+                <div class="link-flow">생태계<span class="arrow">→</span><b>극지 생물</b><span class="arrow">→</span>기후변화 연구
+                </div>
+              </div>
+            </div>
+            <div class="species-side">
+              <div class="card" data-reveal>
+                <div class="card-media"><img src="assets/img/lab-researcher.jpg" alt="실험실에서 연구하는 연구원"></div>
+                <div class="card-body">
+                  <h3>기후변화 모니터링</h3>
+                  <p>극지 서식지 변화를 추적하는 국립생태원 연구 자료</p>
+                  <a class="card-link" href="data.html">연구자료 보기 →</a>
+                </div>
+              </div>
+              <div class="card" data-reveal>
+                <div class="card-media"><img src="assets/img/species-data-tablet.jpg" alt="현장에서 태블릿으로 생태 데이터를 확인하는 모습">
+                </div>
+                <div class="card-body">
+                  <h3>현장 모니터링 데이터</h3>
+                  <p>태블릿으로 확인하는 실시간 서식 데이터 시각화</p>
+                  <a class="card-link" href="data.html">데이터 보기 →</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============================================================
+       생태 탐험 지도 — 인터랙티브 지도 (확대·축소·드래그)
+  ============================================================ -->
+    <section class="section section-alt">
+      <div class="wrap">
+        <div class="section-head" data-reveal>
+          <span class="eyebrow">인터랙티브 생태지도</span>
+          <h2>지도를 드래그하고 확대해<br>기후대별 생태계를 선택하세요</h2>
+          <p>5대 기후대를 한곳에서 만나는 국립생태원의 상징, 에코리움. 구역을 클릭하면 해당 생태계의 대표 생물과 연계 콘텐츠로 이동합니다.</p>
+        </div>
+
+        <div class="map-explore" data-reveal>
+          <img src="assets/img/ecorium-dome-wide.jpg" alt="에코리움 돔 내부 전경 — 열대·사막·온대·극지 생태관이 이어진 모습">
+          <div class="map-pins" aria-hidden="true">
+            <span class="map-pin" style="left:18%; top:62%;"></span>
+            <span class="map-pin" style="left:42%; top:40%;"></span>
+            <span class="map-pin" style="left:66%; top:58%;"></span>
+            <span class="map-pin" style="left:84%; top:34%;"></span>
+          </div>
+          <div class="map-note">
+            <strong>드래그하여 탐색하기</strong>
+            <span>5대 기후대를 통해 전 세계의 생태계를 한곳에서 만나보세요.</span>
+          </div>
+        </div>
+
+        <div class="info-tiles" style="margin-top:28px;">
+          <div class="info-tile" data-reveal>
+            <div class="tile-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M2 12h20M12 2a15 15 0 010 20 15 15 0 010-20z" />
+              </svg>
+            </div>
+            <h3>확대 · 축소 · 드래그</h3>
+            <p>지도를 자유롭게 움직이며 원하는 구역을 자세히 살펴볼 수 있어요.</p>
+          </div>
+          <div class="info-tile" data-reveal>
+            <div class="tile-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 21V9l8-6 8 6v12" />
+                <path d="M9 21v-6h6v6" />
+              </svg>
+            </div>
+            <h3>3D 동물 Hover·클릭</h3>
+            <p>동물에 마우스를 올리면 반응하고, 클릭하면 정보 카드가 나타납니다.</p>
+          </div>
+          <div class="info-tile" data-reveal>
+            <div class="tile-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z" />
+              </svg>
+            </div>
+            <h3>연계 콘텐츠 연결</h3>
+            <p>생태계 → 생물 → 전시·교육·연구까지 자연스럽게 이어지는 탐험 동선.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+       연계 프로그램 및 연구
+  ============================================================ -->
+    <section class="section">
+      <div class="wrap">
+        <div class="section-head" data-reveal>
+          <span class="eyebrow">연계 프로그램 및 연구</span>
+          <h2>탐험은 전시·교육·연구로 이어집니다</h2>
+        </div>
+        <div class="info-tiles">
+          <a href="exhibition.html" class="card" data-reveal>
+            <div class="card-media">
+              <span class="card-tag">특별전</span>
+              <img src="assets/img/tropical-hall-visitors.jpg" alt="에코리움 열대관 특별전을 관람하는 방문객">
+            </div>
+            <div class="card-body">
+              <h3>에코리움 열대관 특별전</h3>
+              <p>살아 숨쉬는 열대우림을 직접 체험하고 다양한 열대 식물을 만나보세요.</p>
+              <span class="card-link">자세히 보기 →</span>
+            </div>
+          </a>
+          <a href="education.html" class="card" data-reveal>
+            <div class="card-media">
+              <span class="card-tag">교육</span>
+              <img src="assets/img/forest-family-explore.jpg" alt="숲에서 진행되는 어린이 생태 탐험대 프로그램">
+            </div>
+            <div class="card-body">
+              <h3>어린이 생태 탐험대</h3>
+              <p>초등학생을 대상으로 한 주말 생태 교육 프로그램. 직접 보고 만지며 배워요.</p>
+              <span class="card-link">신청하기 →</span>
+            </div>
+          </a>
+          <a href="data.html" class="card" data-reveal>
+            <div class="card-media">
+              <span class="card-tag">연구 보고서</span>
+              <img src="assets/img/baobab-savanna.jpg" alt="기후변화와 열대식물 연구 대상지 전경">
+            </div>
+            <div class="card-body">
+              <h3>기후변화와 열대식물</h3>
+              <p>국립생태원 연구진이 발행한 최신 모니터링 보고서 전문을 열람할 수 있습니다.</p>
+              <span class="card-link">보고서 읽기 →</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+       관람 및 체험 안내
+  ============================================================ -->
+    <section class="section section-dark">
+      <div class="wrap">
+        <div class="section-head" data-reveal>
+          <span class="eyebrow">관람 및 체험 안내</span>
+          <h2>가족과 함께하는<br>완벽한 생태 탐험을 준비하세요</h2>
+        </div>
+        <div class="info-tiles">
+          <a href="exhibition.html" class="info-tile" data-reveal
+            style="background:rgba(255,255,255,.05); border-color:rgba(255,255,255,.16); color:#fff;">
+            <div class="tile-icon" style="background:rgba(255,255,255,.12); color:#fff;" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 20l-5.5 3V7L9 4m0 16l6 3M9 20V4m6 3l5.5-3v16L15 23m0-16v16" />
+              </svg>
+            </div>
+            <h3 style="color:#fff;">전시관 안내</h3>
+            <p style="color:var(--sage-300);">각 기후별 전시관의 특징과 위치, 운영 시간을 상세히 확인하세요.</p>
+          </a>
+          <a href="exhibition.html#route" class="info-tile is-highlight" data-reveal
+            style="background:rgba(192,140,62,.14); border-color:var(--amber); color:#fff;">
+            <div class="tile-icon" style="background:var(--amber); color:#241a08;" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 12h18M3 6h18M3 18h18" />
+              </svg>
+            </div>
+            <h3 style="color:#fff;">추천 관람동선 (가족용)</h3>
+            <p style="color:var(--sage-300);">아이들과 함께 편안하고 유익하게 즐길 수 있는 최적의 코스를 안내해 드립니다.</p>
+          </a>
+          <a href="education.html" class="info-tile" data-reveal
+            style="background:rgba(255,255,255,.05); border-color:rgba(255,255,255,.16); color:#fff;">
+            <div class="tile-icon" style="background:rgba(255,255,255,.12); color:#fff;" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="16" rx="2" />
+                <path d="M8 2v4M16 2v4M3 10h18" />
+              </svg>
+            </div>
+            <h3 style="color:#fff;">교육 프로그램 예약</h3>
+            <p style="color:var(--sage-300);">다양한 주제의 생태 체험 교육 프로그램을 확인하고 간편하게 예약하세요.</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <img src="assets/img/logo.png" alt="국립생태원 로고">
+        </div>
+        <nav class="footer-links" aria-label="바닥글 메뉴">
+          <a href="#">기관소개</a>
+          <a href="#">오시는 길</a>
+          <a href="#">연락처</a>
+          <a href="#">이용약관</a>
+          <a href="#">개인정보처리방침</a>
+        </nav>
+      </div>
+      <div class="footer-bottom">
+        <address>
+          충남 서천군 마서면 금강로 1210 국립생태원<br>
+          대표전화: 041-950-5300
+        </address>
+        <img class="wa-mark" src="assets/img/wa-mark.png" alt="웹 접근성 우수사이트 인증마크">
+      </div>
+      <p style="margin-top:18px; font-size:12px; color:rgba(215,226,207,.5);">© National Institute of Ecology. All
+        Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/scrub.js"></script>
+</body>
+
+</html>
