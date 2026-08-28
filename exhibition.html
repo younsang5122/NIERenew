@@ -1,191 +1,135 @@
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>전시·관람 | 국립생태원</title>
-  <meta name="description" content="전시관·시설 안내, 운영시간·이용요금, 추천 관람동선과 예약 정보.">
-  <link rel="icon" href="data:,">
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/components.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>전시·관람 | 국립생태원</title>
+<meta name="description" content="전시관·시설 안내, 운영시간·이용요금, 추천 관람동선과 예약 정보.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/home.css">
+<link rel="stylesheet" href="css/components.css">
 </head>
+<body data-page="exhibition">
+<a class="skip-link" href="#main">본문 바로가기</a>
 
-<body>
-  <a class="skip-link" href="#main">본문 바로가기</a>
+<header class="site-header">
+  <div class="wrap">
+    <a href="index.html" class="brand" aria-label="국립생태원 홈으로 이동">
+      <img src="assets/img/logo.png" alt="국립생태원 로고">
+      <span><span class="brand-en">National Institute of Ecology</span></span>
+    </a>
+    <nav class="main-nav" aria-label="주요 메뉴">
+      <a href="index.html">생태 탐험</a>
+      <a href="species.html">생물 발견</a>
+      <a href="exhibition.html" aria-current="page">전시·관람</a>
+      <a href="education.html">교육·연구</a>
+      <a href="data.html">생태 자료</a>
+    </nav>
+    <div class="header-tools">
+      <form class="search-box" role="search" action="species.html" method="get">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="search" name="q" placeholder="생물·전시·프로그램 검색" aria-label="통합 검색">
+      </form>
+      <button class="nav-toggle" aria-label="메뉴 열기" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
 
-  <header class="site-header">
+<main id="main">
+
+  <section class="page-hero">
+    <img class="bg" src="assets/img/ecorium-dome-wide.jpg" alt="">
     <div class="wrap">
-      <a href="index.html" class="brand" aria-label="국립생태원 홈으로 이동">
-        <img src="assets/img/logo.png" alt="국립생태원 로고">
-      </a>
-      <nav class="main-nav" aria-label="주요 메뉴">
-        <a href="index.html">생태 탐험</a>
-        <a href="species.html">생물 발견</a>
-        <a href="exhibition.html" aria-current="page">전시·관람</a>
-        <a href="education.html">교육·연구</a>
-        <a href="data.html">생태 자료</a>
+      <span class="eyebrow">핵심 기능 · 전시·관람 / 예약</span>
+      <h1>인터랙티브 시설 지도로<br>전시관과 관람동선을 미리 계획하세요</h1>
+      <p>운영시간·이용요금·편의시설을 한눈에 확인하고, 예약 페이지로 바로 연결됩니다.</p>
+    </div>
+  </section>
+
+  <section class="section" id="reserve">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">현재 전시 중인 프로그램</span>
+        <h2>자연과 생태계를 깊이 이해할 수 있는<br>특별한 전시를 만나보세요</h2>
+      </div>
+
+      <div class="grid-3" id="exhibition-grid">
+        <p style="color:var(--ink-soft); grid-column:1/-1;">전시 정보를 불러오는 중…</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt" id="route">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">관람 정보 및 추천 동선</span>
+        <h2>운영시간·요금부터 가족 동선까지</h2>
+      </div>
+
+      <div class="grid-2">
+        <div class="panel" data-reveal>
+          <h3>
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            관람 시간 및 요금
+          </h3>
+          <div class="hours-row"><span>춘추계 (3월~10월)</span><b>09:30–18:00</b></div>
+          <div class="hours-row"><span>동계 (11월~2월)</span><b>09:30–17:00</b></div>
+          <p class="notice">* 매주 월요일 휴관</p>
+          <div class="price-list">
+            <div class="hours-row"><span>대인 (만 19세 이상)</span><b>5,000원</b></div>
+            <div class="hours-row"><span>청소년 (만 13~18세)</span><b>3,000원</b></div>
+            <div class="hours-row"><span>소인 (만 5~12세)</span><b>2,000원</b></div>
+          </div>
+          <a href="#" class="btn btn-ghost" style="margin-top:18px; width:100%;">상세 요금 안내</a>
+        </div>
+
+        <div class="route-panel" data-reveal>
+          <span class="route-badge">가족형 추천</span>
+          <h3>반나절 가족 탐험 코스</h3>
+          <p>아이들과 함께 지루함 없이 핵심 시설을 둘러볼 수 있는 최적의 동선입니다. 에코리움 주요 관과 야외 놀이터를 포함합니다.</p>
+          <div class="route-steps" id="route-steps"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">인터랙티브 시설 지도</span>
+        <h2>구역을 선택해 편의시설과 전시관을 확인하세요</h2>
+      </div>
+      <div class="map-explore" data-reveal>
+        <img src="assets/img/ecorium-dome-wide.jpg" alt="에코리움 실내 시설 전경">
+        <div class="map-pins" id="map-pins"></div>
+        <div class="map-note">
+          <strong>에코리움 · 야외 전시 구역</strong>
+          <span>드래그·휠로 지도를 탐색하고, 점을 클릭하면 해당 생태관으로 이동합니다.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-brand"><img src="assets/img/logo.png" alt="국립생태원 로고"></div>
+      <nav class="footer-links" aria-label="바닥글 메뉴">
+        <a href="#">기관소개</a><a href="#">오시는 길</a><a href="#">연락처</a><a href="#">이용약관</a><a href="#">개인정보처리방침</a>
       </nav>
-      <div class="header-tools">
-        <form class="search-box" role="search" action="species.html" method="get">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="11" cy="11" r="7" />
-            <line x1="21" y1="21" x2="16.65" y2="16.65" />
-          </svg>
-          <input type="search" name="q" placeholder="생물·전시·프로그램 검색" aria-label="통합 검색">
-        </form>
-        <button class="nav-toggle" aria-label="메뉴 열기"
-          aria-expanded="false"><span></span><span></span><span></span></button>
-      </div>
     </div>
-  </header>
-
-  <main id="main">
-
-    <section class="page-hero">
-      <img class="bg" src="assets/img/ecorium-dome-wide.jpg" alt="">
-      <div class="wrap">
-        <span class="eyebrow">핵심 기능 · 전시·관람 / 예약</span>
-        <h1>인터랙티브 시설 지도로<br>전시관과 관람동선을 미리 계획하세요</h1>
-        <p>운영시간·이용요금·편의시설을 한눈에 확인하고, 예약 페이지로 바로 연결됩니다.</p>
-      </div>
-    </section>
-
-    <section class="section" id="reserve">
-      <div class="wrap">
-        <div class="section-head" data-reveal>
-          <span class="eyebrow">현재 전시 중인 프로그램</span>
-          <h2>자연과 생태계를 깊이 이해할 수 있는<br>특별한 전시를 만나보세요</h2>
-        </div>
-
-        <div class="grid-3">
-          <div class="card" data-reveal>
-            <div class="card-media">
-              <span class="card-tag">상설전시</span>
-              <img src="assets/img/tropical-hall-visitors.jpg" alt="에코리움 열대관을 관람하는 방문객">
-            </div>
-            <div class="card-body">
-              <h3>기후변화와 생태계</h3>
-              <p>기후변화가 한반도 생태계에 미치는 영향을 인터랙티브 전시물로 체감할 수 있는 상설 전시입니다.</p>
-              <div class="meta-row"><span>⏰ 10:00–17:00</span><span>📍 에코리움 기획전시실</span></div>
-              <a href="#" class="btn btn-primary" style="margin-top:16px; width:100%;">자세히 보기</a>
-            </div>
-          </div>
-          <div class="card" data-reveal>
-            <div class="card-media">
-              <span class="card-tag">특별전시</span>
-              <img src="assets/img/insect-exhibit-kids.jpg" alt="곤충의 신비로운 세계를 체험하는 아이들">
-            </div>
-            <div class="card-body">
-              <h3>곤충의 신비로운 세계</h3>
-              <p>희귀 곤충들을 만나고, 독특한 생존 방식과 생태계 내 역할을 배우는 특별 기획전입니다.</p>
-              <div class="meta-row"><span>⏰ 09:30–18:00</span><span>🎫 무료 (입장료 별도)</span></div>
-              <a href="#" class="btn btn-ghost" style="margin-top:16px; width:100%;">자세히 보기</a>
-            </div>
-          </div>
-          <div class="card" data-reveal
-            style="display:flex; align-items:center; justify-content:center; text-align:center; padding:36px 24px;">
-            <div>
-              <div class="tile-icon" style="margin:0 auto 16px;" aria-hidden="true">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M4 21V9l8-6 8 6v12" />
-                  <path d="M9 21v-6h6v6" />
-                </svg>
-              </div>
-              <h3 style="font-size:16.5px; font-weight:700; margin-bottom:8px;">생태 해설 프로그램</h3>
-              <p style="font-size:13.8px; color:var(--ink-soft); margin-bottom:18px;">전문 생태 해설사와 함께하는 깊이 있는 관람. 가족·단체
-                맞춤형 해설을 예약하세요.</p>
-              <a href="#" class="btn btn-amber">해설 예약하기</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section section-alt" id="route">
-      <div class="wrap">
-        <div class="section-head" data-reveal>
-          <span class="eyebrow">관람 정보 및 추천 동선</span>
-          <h2>운영시간·요금부터 가족 동선까지</h2>
-        </div>
-
-        <div class="grid-2">
-          <div class="panel" data-reveal>
-            <h3>
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="10" />
-                <path d="M12 6v6l4 2" />
-              </svg>
-              관람 시간 및 요금
-            </h3>
-            <div class="hours-row"><span>춘추계 (3월~10월)</span><b>09:30–18:00</b></div>
-            <div class="hours-row"><span>동계 (11월~2월)</span><b>09:30–17:00</b></div>
-            <p class="notice">* 매주 월요일 휴관</p>
-            <div class="price-list">
-              <div class="hours-row"><span>대인 (만 19세 이상)</span><b>5,000원</b></div>
-              <div class="hours-row"><span>청소년 (만 13~18세)</span><b>3,000원</b></div>
-              <div class="hours-row"><span>소인 (만 5~12세)</span><b>2,000원</b></div>
-            </div>
-            <a href="#" class="btn btn-ghost" style="margin-top:18px; width:100%;">상세 요금 안내</a>
-          </div>
-
-          <div class="route-panel" data-reveal>
-            <span class="route-badge">가족형 추천</span>
-            <h3>반나절 가족 탐험 코스</h3>
-            <p>아이들과 함께 지루함 없이 핵심 시설을 둘러볼 수 있는 최적의 동선입니다. 에코리움 주요 관과 야외 놀이터를 포함합니다.</p>
-            <div class="route-steps">
-              <div class="route-step is-active"><span class="dot">1</span><span class="label">방문자 센터</span></div>
-              <div class="route-step is-active"><span class="dot">2</span><span class="label">에코리움<br>(열대/사막관)</span>
-              </div>
-              <div class="route-step"><span class="dot">3</span><span class="label">하늘다람<br>놀이터</span></div>
-              <div class="route-step"><span class="dot">4</span><span class="label">서문 출구</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="wrap">
-        <div class="section-head" data-reveal>
-          <span class="eyebrow">인터랙티브 시설 지도</span>
-          <h2>구역을 선택해 편의시설과 전시관을 확인하세요</h2>
-        </div>
-        <div class="map-explore" data-reveal>
-          <img src="assets/img/ecorium-dome-wide.jpg" alt="에코리움 실내 시설 전경">
-          <div class="map-pins" aria-hidden="true">
-            <span class="map-pin" style="left:22%; top:55%;"></span>
-            <span class="map-pin" style="left:52%; top:38%;"></span>
-            <span class="map-pin" style="left:74%; top:60%;"></span>
-          </div>
-          <div class="map-note">
-            <strong>에코리움 · 야외 전시 구역</strong>
-            <span>전시관을 클릭하면 운영시간과 편의시설 정보를 확인할 수 있어요.</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <footer class="site-footer">
-    <div class="wrap">
-      <div class="footer-top">
-        <div class="footer-brand"><img src="assets/img/logo.png" alt="국립생태원 로고"></div>
-        <nav class="footer-links" aria-label="바닥글 메뉴">
-          <a href="#">기관소개</a><a href="#">오시는 길</a><a href="#">연락처</a><a href="#">이용약관</a><a href="#">개인정보처리방침</a>
-        </nav>
-      </div>
-      <div class="footer-bottom">
-        <address>충남 서천군 마서면 금강로 1210 국립생태원<br>대표전화: 041-950-5300</address>
-        <img class="wa-mark" src="assets/img/wa-mark.png" alt="웹 접근성 우수사이트 인증마크">
-      </div>
-      <p style="margin-top:18px; font-size:12px; color:rgba(215,226,207,.5);">© National Institute of Ecology. All
-        Rights Reserved.</p>
+    <div class="footer-bottom">
+      <address>충남 서천군 마서면 금강로 1210 국립생태원<br>대표전화: 041-950-5300</address>
+      <img class="wa-mark" src="assets/img/wa-mark.png" alt="웹 접근성 우수사이트 인증마크">
     </div>
-  </footer>
+    <p style="margin-top:18px; font-size:12px; color:rgba(215,226,207,.5);">© National Institute of Ecology. All Rights Reserved.</p>
+  </div>
+</footer>
 
-  <script src="js/main.js"></script>
+<script src="js/main.js"></script>
+<script src="js/data.js"></script>
 </body>
-
 </html>

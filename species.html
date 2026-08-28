@@ -7,16 +7,17 @@
 <meta name="description" content="분류·서식지·보호등급 정보와 3D 모델로 만나는 국립생태원의 생물들.">
 <link rel="icon" href="data:,">
 <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/home.css">
 <link rel="stylesheet" href="css/components.css">
 </head>
-<body>
+<body data-page="species">
 <a class="skip-link" href="#main">본문 바로가기</a>
 
 <header class="site-header">
   <div class="wrap">
     <a href="index.html" class="brand" aria-label="국립생태원 홈으로 이동">
       <img src="assets/img/logo.png" alt="국립생태원 로고">
-
+      <span><span class="brand-en">National Institute of Ecology</span></span>
     </a>
     <nav class="main-nav" aria-label="주요 메뉴">
       <a href="index.html">생태 탐험</a>
@@ -37,32 +38,38 @@
 
 <main id="main">
 
+  <section class="page-hero">
+    <img class="bg" src="assets/img/otter-rock.jpg" alt="">
+    <div class="wrap">
+      <span class="eyebrow">핵심 기능 · 생물 탐색</span>
+      <h1>생물 이미지·영상, 분류·서식지·보호등급까지<br>3D로 만나는 생물 도감</h1>
+      <p>생물을 클릭하면 정보 카드가 열리고, 관련 생태계·전시·교육·연구 콘텐츠로 자연스럽게 이어집니다.</p>
+    </div>
+  </section>
 
-
-  <!-- 생물 상세 (수달) -->
+  <!-- 생물 상세: data/species.json 을 기반으로 JS가 채워 넣습니다 (?id=수달ID 로 특정 생물 지정 가능) -->
   <section class="species-hero">
     <div class="species-hero-media">
       <div class="species-badges">
-        <span class="badge badge-danger">멸종위기 야생생물 I급</span>
+        <span class="badge badge-3d">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l9 5-9 5-9-5 9-5zM3 12l9 5 9-5M3 17l9 5 9-5"/></svg>
+          3D Model
+        </span>
+        <span class="badge badge-danger" id="sp-badge-level">멸종위기 야생생물 I급</span>
       </div>
-      <img src="assets/img/otter-rock.jpg" alt="바위 위에 앉아 있는 수달">
+      <img id="sp-hero-img-2" src="assets/img/otter-rock.jpg" alt="">
     </div>
     <div class="wrap">
       <div class="species-intro">
         <div data-reveal>
-          <h1>수달 <span class="sci">Lutra lutra</span></h1>
-          <p class="desc">수달은 족제비과에 속하는 포유류로, 주로 강이나 호수와 같은 담수 생태계에서 서식합니다. 뛰어난 수영 실력을 갖추고 있으며, 수생태계의 최상위 포식자로서 먹이사슬의 균형을 유지하는 핵심종(Keystone species) 역할을 합니다.</p>
-          <p class="desc">이들의 존재는 해당 지역의 수질과 생태계 건강성을 나타내는 지표생물(Indicator species)로 여겨지며, 서식지 파괴와 수질 오염으로 인해 현재 멸종위기 야생생물 I급으로 지정되어 보호받고 있습니다.</p>
-          <div class="link-flow" style="margin-top:20px;">생물<span class="arrow">→</span><b>강과 하천 생태계</b><span class="arrow">→</span>수생태계의 파수꾼(전시)<span class="arrow">→</span>서식 실태 조사(연구)</div>
+          <h1 id="sp-title">수달 <span class="sci">Lutra lutra</span></h1>
+          <div id="sp-desc"></div>
+          <div class="link-flow" id="sp-flow" style="margin-top:20px;"></div>
         </div>
         <div class="fact-panel" data-reveal>
           <h3>주요 정보</h3>
-          <div class="fact-row"><span>서식지</span><b>강과 하천</b></div>
-          <div class="fact-row"><span>먹이</span><b>육식성 (물고기, 개구리 등)</b></div>
-          <div class="fact-row"><span>수명</span><b>10–15년</b></div>
-          <div class="fact-row"><span>무게</span><b>5–14kg</b></div>
-          <div class="fact-row"><span>보호등급</span><b>멸종위기 I급</b></div>
-          <a href="index.html#ecosystems" class="btn btn-ghost" style="margin-top:18px; width:100%;">온대 생태계 탐험하기 →</a>
+          <div id="sp-facts"></div>
+          <a href="index.html#ecosystems" id="sp-cta" class="btn btn-ghost" style="margin-top:18px; width:100%;">생태계 탐험하기 →</a>
         </div>
       </div>
     </div>
@@ -80,85 +87,20 @@
       <div class="filter-row">
         <div class="filter-select">
           <span>기후대</span>
-          <select><option>전체</option><option>열대</option><option>사막</option><option>온대</option><option>극지</option></select>
+          <select id="filter-eco"><option>전체</option></select>
         </div>
         <div class="filter-select">
           <span>분류</span>
-          <select><option>전체</option><option>포유류</option><option>조류</option><option>식물</option></select>
+          <select id="filter-category"><option>전체</option></select>
         </div>
         <div class="filter-select">
           <span>보호등급</span>
-          <select><option>전체</option><option>멸종위기 I급</option><option>천연기념물</option></select>
+          <select id="filter-level"><option>전체</option></select>
         </div>
       </div>
 
-      <div class="grid-3">
-        <div class="card" data-reveal>
-          <div class="card-media">
-            <span class="card-tag">멸종위기 I급</span>
-            <img src="assets/img/otter-rock.jpg" alt="수달">
-          </div>
-          <div class="card-body">
-            <h3>수달 <span class="sci">Lutra lutra</span></h3>
-            <p>강과 하천 · 수생태계 최상위 포식자</p>
-            <span class="card-link">생물 상세 보기 →</span>
-          </div>
-        </div>
-        <div class="card" data-reveal>
-          <div class="card-media">
-            <span class="card-tag">천연기념물</span>
-            <img src="assets/img/woodpecker.jpg" alt="까막딱따구리">
-          </div>
-          <div class="card-body">
-            <h3>까막딱따구리 <span class="sci">Dryocopus martius</span></h3>
-            <p>온대 낙엽수림 · 숲 건강성 지표종</p>
-            <span class="card-link">생물 상세 보기 →</span>
-          </div>
-        </div>
-        <div class="card" data-reveal>
-          <div class="card-media">
-            <span class="card-tag">온실 식물</span>
-            <img src="assets/img/baobab-savanna.jpg" alt="바오밥나무">
-          </div>
-          <div class="card-body">
-            <h3>바오밥나무 <span class="sci">Adansonia</span></h3>
-            <p>사막·사바나 · 물을 저장하는 생명의 나무</p>
-            <span class="card-link">생물 상세 보기 →</span>
-          </div>
-        </div>
-        <div class="card" data-reveal>
-          <div class="card-media">
-            <span class="card-tag">열대 식물</span>
-            <img src="assets/img/tree-glass-ceiling.jpg" alt="유리 온실 속 나무">
-          </div>
-          <div class="card-body">
-            <h3>에코리움 열대 수목</h3>
-            <p>열대 생태계 · 유리 온실 자생 컬렉션</p>
-            <span class="card-link">생물 상세 보기 →</span>
-          </div>
-        </div>
-        <div class="card" data-reveal>
-          <div class="card-media">
-            <span class="card-tag">곤충관</span>
-            <img src="assets/img/insect-exhibit-kids.jpg" alt="곤충 전시를 체험하는 아이들">
-          </div>
-          <div class="card-body">
-            <h3>숲의 곤충들</h3>
-            <p>온대 생태계 · 낙엽 아래 작은 이웃들</p>
-            <span class="card-link">생물 상세 보기 →</span>
-          </div>
-        </div>
-        <div class="card" data-reveal>
-          <div class="card-media">
-            <span class="card-tag">현장 모니터링</span>
-            <img src="assets/img/species-data-tablet.jpg" alt="태블릿으로 확인하는 생태 데이터">
-          </div>
-          <div class="card-body">
-            <h3>서식 실태 조사 데이터</h3>
-            <p>연구진이 현장에서 기록한 생물 모니터링 자료</p>
-            <span class="card-link">연구자료 보기 →</span>
-          </div>
-        </div>
+      <div class="grid-3" id="species-grid">
+        <p style="color:var(--ink-soft); grid-column:1/-1;">생물 도감을 불러오는 중…</p>
       </div>
     </div>
   </section>
@@ -182,5 +124,6 @@
 </footer>
 
 <script src="js/main.js"></script>
+<script src="js/data.js"></script>
 </body>
 </html>

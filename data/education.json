@@ -1,0 +1,50 @@
+[
+  {
+    "id": "forest-explorers",
+    "title": "숲 속 생태 탐험대",
+    "image": "assets/img/forest-family-explore.jpg",
+    "target": "어린이",
+    "category": "숲 생태",
+    "date": "매주 주말",
+    "location": "야외 생태 학습장",
+    "description": "어린이 눈높이에 맞춘 숲 생태계 관찰 프로그램. 돋보기를 들고 자연의 숨겨진 이야기를 찾아봅니다.",
+    "duration": "120분",
+    "reservationUrl": "#"
+  },
+  {
+    "id": "family-botanist",
+    "title": "우리가족 식물학자",
+    "image": "assets/img/planting-hands.jpg",
+    "target": "가족",
+    "category": "식물",
+    "date": "상시 운영",
+    "location": "온실 체험관",
+    "description": "가족이 함께 식물을 관찰하고 직접 화분에 심어보는 체험. 일상 속 자연의 소중함을 배웁니다.",
+    "duration": "90분",
+    "reservationUrl": "#"
+  },
+  {
+    "id": "climate-biodiversity",
+    "title": "기후변화와 생물다양성",
+    "image": "assets/img/lab-researcher.jpg",
+    "target": "전문가",
+    "category": "기후변화",
+    "date": "매월 마지막 주 금요일",
+    "location": "국립생태원 세미나실",
+    "description": "기후변화가 한반도 생태계에 미치는 영향을 분석하고 대응 방안을 논의하는 심층 세미나입니다.",
+    "duration": "180분",
+    "reservationUrl": "#"
+  },
+  {
+    "id": "microscope-lab",
+    "title": "꼬마 생물학자 현미경 교실",
+    "image": "assets/img/edu-microscope-kids.jpg",
+    "target": "어린이",
+    "category": "생물",
+    "date": "매주 토요일",
+    "location": "교육동 실습실",
+    "description": "현미경으로 곤충과 식물 표본을 직접 관찰하며 눈에 보이지 않는 생명의 세계를 탐구합니다.",
+    "duration": "100분",
+    "reservationUrl": "#"
+  }
+]

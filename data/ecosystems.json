@@ -1,0 +1,50 @@
+[
+  {
+    "id": "tropical",
+    "name": "열대 생태계",
+    "image": "assets/img/tropical-hall-visitors.jpg",
+    "category": "Tropical",
+    "location": "에코리움 열대관",
+    "description": "지구 생물종의 절반 이상이 서식하는 생명의 보고, 열대우림의 경이로운 생태계를 3D로 만나보세요. 마우스를 올리면 캐노피의 동물이 미세하게 반응합니다.",
+    "mapPosition": { "x": 22, "y": 58 },
+    "speciesIds": ["tropical-tree"],
+    "exhibitionIds": ["climate-ecosystem"],
+    "educationIds": []
+  },
+  {
+    "id": "desert",
+    "name": "사막 생태계",
+    "image": "assets/img/baobab-savanna.jpg",
+    "category": "Desert",
+    "location": "에코리움 사막관",
+    "description": "극한의 건조 환경에서 살아가는 생명의 전략을 3D 오브젝트로 만나보세요.",
+    "mapPosition": { "x": 46, "y": 36 },
+    "speciesIds": ["baobab"],
+    "exhibitionIds": [],
+    "educationIds": []
+  },
+  {
+    "id": "temperate",
+    "name": "온대 생태계",
+    "image": "assets/img/forest-family-explore.jpg",
+    "category": "Temperate",
+    "location": "야외 전시 구역",
+    "description": "사계절이 뚜렷한 한반도의 숲. 가족 단위 탐험 프로그램과 연결됩니다.",
+    "mapPosition": { "x": 68, "y": 60 },
+    "speciesIds": ["otter", "woodpecker", "forest-insects"],
+    "exhibitionIds": ["insect-world"],
+    "educationIds": ["forest-explorers"]
+  },
+  {
+    "id": "polar",
+    "name": "극지 생태계",
+    "image": "assets/img/ecorium-dome-wide.jpg",
+    "category": "Polar",
+    "location": "에코리움 극지관",
+    "description": "혹한의 환경에 적응한 생물들의 생존 전략을 인터랙티브하게 탐험합니다.",
+    "mapPosition": { "x": 84, "y": 32 },
+    "speciesIds": [],
+    "exhibitionIds": [],
+    "educationIds": []
+  }
+]

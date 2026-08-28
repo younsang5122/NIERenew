@@ -1,0 +1,66 @@
+[
+  {
+    "id": "endangered-2023",
+    "title": "2023 멸종위기 야생생물 서식 실태 조사",
+    "type": "연구자료",
+    "image": "",
+    "description": "전국 주요 습지 및 산림 지역의 멸종위기종 서식 현황과 생태적 특징을 분석한 연간 보고서입니다.",
+    "content": "",
+    "data": [],
+    "speciesIds": ["otter", "woodpecker"],
+    "ecosystemIds": ["temperate"],
+    "createdAt": "2023-12"
+  },
+  {
+    "id": "invasive-species-risk",
+    "title": "외래생물 생태계 위해성 평가 결과",
+    "type": "연구자료",
+    "image": "",
+    "description": "새롭게 유입된 외래종이 토착 생태계에 미치는 영향을 정량적으로 평가하고 관리 방안을 제안합니다.",
+    "content": "",
+    "data": [],
+    "speciesIds": [],
+    "ecosystemIds": [],
+    "createdAt": "2024-03"
+  },
+  {
+    "id": "temperature-trend",
+    "title": "한반도 기온 변화 추이 (2000–2023)",
+    "type": "생태 데이터",
+    "image": "assets/img/species-data-tablet.jpg",
+    "description": "지난 20여 년간 한반도의 평균 기온 변화를 나타내는 데이터입니다. 온난화 추세를 시각적으로 확인할 수 있으며, 이는 다양한 생물종의 서식지 변화와 직결됩니다.",
+    "content": "",
+    "data": [
+      {"year": 2000, "tempAnomaly": 0.3}, {"year": 2005, "tempAnomaly": 0.5},
+      {"year": 2010, "tempAnomaly": 0.6}, {"year": 2015, "tempAnomaly": 0.9},
+      {"year": 2020, "tempAnomaly": 1.2}, {"year": 2023, "tempAnomaly": 1.4}
+    ],
+    "speciesIds": ["otter"],
+    "ecosystemIds": ["temperate"],
+    "createdAt": "2024-01"
+  },
+  {
+    "id": "climate-tropical-plants",
+    "title": "기후변화와 열대식물",
+    "type": "연구 보고서",
+    "image": "assets/img/baobab-savanna.jpg",
+    "description": "국립생태원 연구진이 발행한 최신 모니터링 보고서 전문을 열람할 수 있습니다.",
+    "content": "",
+    "data": [],
+    "speciesIds": ["baobab"],
+    "ecosystemIds": ["desert", "tropical"],
+    "createdAt": "2024-06"
+  },
+  {
+    "id": "otter-survey-2024",
+    "title": "2024 수달 서식 실태 조사",
+    "type": "현장 데이터",
+    "image": "assets/img/species-data-tablet.jpg",
+    "description": "수달의 최신 행동 패턴 및 유전적 다양성을 태블릿 현장 조사로 기록한 연구 자료입니다.",
+    "content": "",
+    "data": [],
+    "speciesIds": ["otter"],
+    "ecosystemIds": ["temperate"],
+    "createdAt": "2024-09"
+  }
+]

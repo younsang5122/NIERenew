@@ -15,9 +15,8 @@
     });
   }
 
-  // 스크롤 리빌 애니메이션
-  var revealEls = document.querySelectorAll('[data-reveal]');
-  if('IntersectionObserver' in window && revealEls.length){
+  // 스크롤 리빌 애니메이션 (데이터 기반으로 나중에 추가되는 요소도 관찰할 수 있도록 전역에 노출)
+  if('IntersectionObserver' in window){
     var io = new IntersectionObserver(function(entries){
       entries.forEach(function(entry){
         if(entry.isIntersecting){
@@ -26,9 +25,10 @@
         }
       });
     }, {threshold:0.15, rootMargin:'0px 0px -40px 0px'});
-    revealEls.forEach(function(el){ io.observe(el); });
+    window.__nieRevealObserver = io;
+    document.querySelectorAll('[data-reveal]').forEach(function(el){ io.observe(el); });
   } else {
-    revealEls.forEach(function(el){ el.classList.add('is-visible'); });
+    document.querySelectorAll('[data-reveal]').forEach(function(el){ el.classList.add('is-visible'); });
   }
 
   // 생태계 탭 전환 (오늘의 생태 / 생태계 선택)

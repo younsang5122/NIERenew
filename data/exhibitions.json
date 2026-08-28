@@ -1,0 +1,44 @@
+[
+  {
+    "id": "climate-ecosystem",
+    "title": "기후변화와 생태계",
+    "image": "assets/img/tropical-hall-visitors.jpg",
+    "location": "에코리움 기획전시실",
+    "description": "기후변화가 한반도 생태계에 미치는 영향을 다양한 시청각 자료와 인터랙티브 전시물을 통해 체감할 수 있는 상설 전시입니다.",
+    "period": "상설전시",
+    "hours": "10:00–17:00",
+    "price": "무료 (입장료 별도)",
+    "facilities": ["휴게공간", "수유실", "물품보관함"],
+    "recommendedRoute": ["방문자 센터", "에코리움(열대/사막관)", "하늘다람 놀이터", "서문 출구"],
+    "reservationUrl": "#",
+    "ecosystemId": "tropical"
+  },
+  {
+    "id": "insect-world",
+    "title": "곤충의 신비로운 세계",
+    "image": "assets/img/insect-exhibit-kids.jpg",
+    "location": "어린이생태체험관",
+    "description": "우리 주변에서 쉽게 볼 수 없는 희귀 곤충들을 만나고, 그들의 독특한 생존 방식과 생태계 내 역할을 배우는 특별 기획전입니다.",
+    "period": "특별전시",
+    "hours": "09:30–18:00",
+    "price": "무료 (입장료 별도)",
+    "facilities": ["체험존", "포토존"],
+    "recommendedRoute": ["방문자 센터", "어린이생태체험관", "야외 곤충정원"],
+    "reservationUrl": "#",
+    "ecosystemId": "temperate"
+  },
+  {
+    "id": "guided-tour",
+    "title": "생태 해설 프로그램",
+    "image": "assets/img/ecorium-dome-wide.jpg",
+    "location": "에코리움 전관",
+    "description": "전문 생태 해설사와 함께하는 깊이 있는 관람. 가족·단체를 위한 맞춤형 해설을 예약할 수 있습니다.",
+    "period": "상시 예약제",
+    "hours": "회차별 운영 (10:30 / 13:30 / 15:30)",
+    "price": "무료 (사전 예약 필수)",
+    "facilities": ["가족 코스", "단체 코스"],
+    "recommendedRoute": ["방문자 센터", "에코리움 전관"],
+    "reservationUrl": "#",
+    "ecosystemId": "polar"
+  }
+]
