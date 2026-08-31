@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/home.css">
 <link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/reserve.css">
 </head>
 <body data-page="education">
 <a class="skip-link" href="#main">본문 바로가기</a>
@@ -17,7 +18,6 @@
   <div class="wrap">
     <a href="index.html" class="brand" aria-label="국립생태원 홈으로 이동">
       <img src="assets/img/logo.png" alt="국립생태원 로고">
-      <span><span class="brand-en">National Institute of Ecology</span></span>
     </a>
     <nav class="main-nav" aria-label="주요 메뉴">
       <a href="index.html">생태 탐험</a>
@@ -31,6 +31,10 @@
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         <input type="search" name="q" placeholder="생물·전시·프로그램 검색" aria-label="통합 검색">
       </form>
+      <a href="reservations.html" class="reserve-nav-link btn btn-ghost" style="padding:9px 14px; font-size:13px;">
+        내 예약
+        <span class="reserve-badge" data-reserve-badge>0</span>
+      </a>
       <button class="nav-toggle" aria-label="메뉴 열기" aria-expanded="false"><span></span><span></span><span></span></button>
     </div>
   </div>
@@ -74,22 +78,29 @@
 
       <div class="data-panel" data-reveal>
         <div>
-          <h3 style="font-size:22px; font-weight:800;">한반도 기온 변화 추이 (2000–2023)</h3>
-          <p id="research-data-desc" style="margin-top:12px; color:var(--ink-soft); font-size:14.5px;">데이터를 불러오는 중…</p>
+          <h3 style="font-size:28px; font-weight:800; line-height:1.35;">한반도 기온 변화 추이 (2000–2023)</h3>
+          <p id="research-data-desc" style="margin-top:16px; color:var(--ink-soft); font-size:17px; line-height:1.7;">데이터를 불러오는 중…</p>
           <div class="data-tags">
             <span class="data-tag">기후변화</span>
             <span class="data-tag">온도 상승</span>
             <span class="data-tag">생태계 영향</span>
           </div>
-          <div class="link-flow" style="margin-top:18px;">연구 데이터<span class="arrow">→</span><b>서식지 변화</b><span class="arrow">→</span>관련 생물·생태계</div>
+          <div class="link-flow" style="margin-top:22px; font-size:15px;">연구 데이터<span class="arrow">→</span><b>서식지 변화</b><span class="arrow">→</span>관련 생물·생태계</div>
         </div>
-        <div class="data-media">
+        <div class="data-media" id="data-media">
           <img src="assets/img/species-data-tablet.jpg" alt="현장에서 태블릿으로 확인하는 생태 데이터 그래프">
-          <div class="data-overlay">
+          <div class="data-overlay" id="data-overlay-toggle">
             <span class="data-overlay-btn">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg>
               인터랙티브 그래프 보기
             </span>
+          </div>
+          <div class="chart-panel" id="chart-panel" hidden>
+            <button type="button" class="chart-back" id="chart-back" aria-label="사진으로 돌아가기">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+              사진으로 보기
+            </button>
+            <canvas id="temp-chart" role="img" aria-label="한반도 기온 이상 편차 그래프 (2000년~2023년)"></canvas>
           </div>
         </div>
       </div>
@@ -118,6 +129,8 @@
 </footer>
 
 <script src="js/main.js"></script>
+<script src="js/chart.js"></script>
 <script src="js/data.js"></script>
+<script src="js/reserve.js"></script>
 </body>
 </html>

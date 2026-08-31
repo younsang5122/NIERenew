@@ -19,7 +19,7 @@
     "location": "에코리움 사막관",
     "description": "극한의 건조 환경에서 살아가는 생명의 전략을 3D 오브젝트로 만나보세요.",
     "mapPosition": { "x": 46, "y": 36 },
-    "speciesIds": ["baobab"],
+    "speciesIds": ["baobab", "desert-fox"],
     "exhibitionIds": [],
     "educationIds": []
   },
@@ -43,7 +43,7 @@
     "location": "에코리움 극지관",
     "description": "혹한의 환경에 적응한 생물들의 생존 전략을 인터랙티브하게 탐험합니다.",
     "mapPosition": { "x": 84, "y": 32 },
-    "speciesIds": [],
+    "speciesIds": ["chinstrap-penguin"],
     "exhibitionIds": [],
     "educationIds": []
   }

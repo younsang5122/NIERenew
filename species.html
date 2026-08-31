@@ -4,11 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>생물 발견 | 국립생태원</title>
-<meta name="description" content="분류·서식지·보호등급 정보와 3D 모델로 만나는 국립생태원의 생물들.">
+<meta name="description" content="분류·서식지·보호등급 정보로 만나는 국립생태원의 생물 도감. 일부 생물은 3D 모델도 제공됩니다.">
 <link rel="icon" href="data:,">
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/home.css">
 <link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/reserve.css">
 </head>
 <body data-page="species">
 <a class="skip-link" href="#main">본문 바로가기</a>
@@ -17,7 +18,6 @@
   <div class="wrap">
     <a href="index.html" class="brand" aria-label="국립생태원 홈으로 이동">
       <img src="assets/img/logo.png" alt="국립생태원 로고">
-      <span><span class="brand-en">National Institute of Ecology</span></span>
     </a>
     <nav class="main-nav" aria-label="주요 메뉴">
       <a href="index.html">생태 탐험</a>
@@ -31,6 +31,10 @@
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         <input type="search" name="q" placeholder="생물·전시·프로그램 검색" aria-label="통합 검색">
       </form>
+      <a href="reservations.html" class="reserve-nav-link btn btn-ghost" style="padding:9px 14px; font-size:13px;">
+        내 예약
+        <span class="reserve-badge" data-reserve-badge>0</span>
+      </a>
       <button class="nav-toggle" aria-label="메뉴 열기" aria-expanded="false"><span></span><span></span><span></span></button>
     </div>
   </div>
@@ -38,31 +42,23 @@
 
 <main id="main">
 
-  <section class="page-hero">
-    <img class="bg" src="assets/img/otter-rock.jpg" alt="">
-    <div class="wrap">
-      <span class="eyebrow">핵심 기능 · 생물 탐색</span>
-      <h1>생물 이미지·영상, 분류·서식지·보호등급까지<br>3D로 만나는 생물 도감</h1>
-      <p>생물을 클릭하면 정보 카드가 열리고, 관련 생태계·전시·교육·연구 콘텐츠로 자연스럽게 이어집니다.</p>
-    </div>
-  </section>
-
   <!-- 생물 상세: data/species.json 을 기반으로 JS가 채워 넣습니다 (?id=수달ID 로 특정 생물 지정 가능) -->
   <section class="species-hero">
     <div class="species-hero-media">
       <div class="species-badges">
-        <span class="badge badge-3d">
+        <span class="badge badge-3d" id="sp-badge-3d">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l9 5-9 5-9-5 9-5zM3 12l9 5 9-5M3 17l9 5 9-5"/></svg>
           3D Model
         </span>
-        <span class="badge badge-danger" id="sp-badge-level">멸종위기 야생생물 I급</span>
+        <span class="badge badge-danger" id="sp-badge-level">정보 확인 중</span>
       </div>
-      <img id="sp-hero-img-2" src="assets/img/otter-rock.jpg" alt="">
+      <img id="sp-hero-img" src="data:," alt="">
     </div>
     <div class="wrap">
       <div class="species-intro">
         <div data-reveal>
-          <h1 id="sp-title">수달 <span class="sci">Lutra lutra</span></h1>
+          <span class="eyebrow">핵심 기능 · 생물 탐색</span>
+          <h1 id="sp-title" style="margin-top:14px;">생물 정보를 불러오는 중…</h1>
           <div id="sp-desc"></div>
           <div class="link-flow" id="sp-flow" style="margin-top:20px;"></div>
         </div>
@@ -81,8 +77,10 @@
       <div class="section-head" data-reveal>
         <span class="eyebrow">생물 도감</span>
         <h2>기후대별 대표 생물</h2>
-        <p>카드를 클릭하면 분류·서식지·보호등급 정보와 3D 모델을 확인할 수 있어요.</p>
+        <p>카드를 클릭하면 분류·서식지·보호등급 정보를 확인할 수 있어요. (일부 생물은 3D 모델도 함께 제공됩니다)</p>
       </div>
+
+      <p id="species-search-notice" hidden style="font-size:13.5px; color:var(--ink-soft); margin:-14px 0 20px;"></p>
 
       <div class="filter-row">
         <div class="filter-select">
@@ -124,6 +122,8 @@
 </footer>
 
 <script src="js/main.js"></script>
+<script src="js/tilt.js"></script>
 <script src="js/data.js"></script>
+<script src="js/reserve.js"></script>
 </body>
 </html>

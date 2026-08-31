@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/home.css">
 <link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/reserve.css">
 </head>
 <body data-page="exhibition">
 <a class="skip-link" href="#main">본문 바로가기</a>
@@ -17,7 +18,6 @@
   <div class="wrap">
     <a href="index.html" class="brand" aria-label="국립생태원 홈으로 이동">
       <img src="assets/img/logo.png" alt="국립생태원 로고">
-      <span><span class="brand-en">National Institute of Ecology</span></span>
     </a>
     <nav class="main-nav" aria-label="주요 메뉴">
       <a href="index.html">생태 탐험</a>
@@ -31,6 +31,10 @@
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         <input type="search" name="q" placeholder="생물·전시·프로그램 검색" aria-label="통합 검색">
       </form>
+      <a href="reservations.html" class="reserve-nav-link btn btn-ghost" style="padding:9px 14px; font-size:13px;">
+        내 예약
+        <span class="reserve-badge" data-reserve-badge>0</span>
+      </a>
       <button class="nav-toggle" aria-label="메뉴 열기" aria-expanded="false"><span></span><span></span><span></span></button>
     </div>
   </div>
@@ -102,11 +106,11 @@
       </div>
       <div class="map-explore" data-reveal>
         <img src="assets/img/ecorium-dome-wide.jpg" alt="에코리움 실내 시설 전경">
-        <div class="map-pins" id="map-pins"></div>
-        <div class="map-note">
+        
+        <!-- <div class="map-note">
           <strong>에코리움 · 야외 전시 구역</strong>
           <span>드래그·휠로 지도를 탐색하고, 점을 클릭하면 해당 생태관으로 이동합니다.</span>
-        </div>
+        </div> -->
       </div>
     </div>
   </section>
@@ -131,5 +135,6 @@
 
 <script src="js/main.js"></script>
 <script src="js/data.js"></script>
+<script src="js/reserve.js"></script>
 </body>
 </html>

@@ -64,6 +64,38 @@
     "researchIds": []
   },
   {
+    "id": "desert-fox",
+    "name": "사막여우",
+    "scientificName": "Vulpes zerda",
+    "image": "assets/img/desert-fox.jpg",
+    "model3D": "",
+    "category": "포유류",
+    "habitat": "사하라 사막·건조지대",
+    "description": "사막여우는 세계에서 가장 작은 여우 종으로, 몸집에 비해 유난히 큰 귀가 특징입니다. 이 큰 귀는 예민한 청각으로 땅속 먹이의 움직임을 감지할 뿐 아니라, 혈관을 통해 체온을 방출해 낮 동안의 사막 열기를 견디게 해주는 역할을 합니다.\n야행성으로 낮에는 모래 굴 속에서 휴식하고 밤에 활동하며, 국립생태원 사막관에서는 실제 사막의 기온과 건조한 환경을 재현한 공간에서 만나볼 수 있습니다.",
+    "protectionLevel": "CITES 부속서 II종",
+    "facts": { "먹이": "곤충, 소형 설치류, 식물 뿌리 등 잡식성", "수명": "10–12년", "무게": "1–1.5kg" },
+    "ecosystemId": "desert",
+    "exhibitionIds": ["guided-tour"],
+    "educationIds": [],
+    "researchIds": []
+  },
+  {
+    "id": "chinstrap-penguin",
+    "name": "턱끈펭귄",
+    "scientificName": "Pygoscelis antarcticus",
+    "image": "assets/img/polar-penguin.jpg",
+    "model3D": "",
+    "category": "조류",
+    "habitat": "남극·아남극 섬",
+    "description": "턱끈펭귄은 흰 턱 아래로 이어지는 검은 줄무늬가 마치 헬멧 끈처럼 보여 붙여진 이름입니다. 남극 대륙과 주변 섬의 바위 절벽에 무리를 지어 번식하며, 크릴과 작은 물고기를 주식으로 잠수하며 사냥합니다.\n국립생태원 극지관은 개마고원의 침엽수림부터 툰드라, 극지방까지 이어지는 기후 변화를 재현한 공간으로, 이곳에서 젠투펭귄과 함께 턱끈펭귄을 직접 관찰할 수 있습니다.",
+    "protectionLevel": "관심대상종",
+    "facts": { "먹이": "크릴, 작은 물고기, 오징어", "수명": "15–20년", "무게": "3–5kg" },
+    "ecosystemId": "polar",
+    "exhibitionIds": ["guided-tour"],
+    "educationIds": [],
+    "researchIds": []
+  },
+  {
     "id": "forest-insects",
     "name": "숲의 곤충들",
     "scientificName": "Insecta spp.",

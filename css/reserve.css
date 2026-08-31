@@ -1,0 +1,61 @@
+/* ==========================================================================
+   예약·신청 모달 + 내 예약 페이지
+   ========================================================================== */
+
+.reserve-modal{ position:fixed; inset:0; z-index:500; display:none; }
+.reserve-modal.is-open{ display:block; }
+.reserve-modal-backdrop{
+  position:absolute; inset:0; background:rgba(16,29,22,.55); backdrop-filter:blur(2px);
+  opacity:0; animation:rmFade .2s ease forwards;
+}
+.reserve-modal-panel{
+  position:relative; z-index:2; max-width:440px; width:calc(100% - 40px);
+  margin:8vh auto 0; background:#fff; border-radius:10px; padding:32px 30px 28px;
+  box-shadow:0 30px 60px -20px rgba(16,29,22,.5);
+  opacity:0; transform:translateY(14px); animation:rmPop .25s ease .05s forwards;
+  max-height:82vh; overflow-y:auto;
+}
+@keyframes rmFade{ to{ opacity:1; } }
+@keyframes rmPop{ to{ opacity:1; transform:none; } }
+
+.reserve-modal-close{
+  position:absolute; top:18px; right:18px; width:32px; height:32px; border-radius:50%;
+  border:0; background:var(--paper-dim); color:var(--ink-soft); font-size:20px; line-height:1;
+  display:flex; align-items:center; justify-content:center;
+}
+.reserve-modal-close:hover{ background:var(--sage-200); color:var(--ink); }
+
+.rm-title{ font-size:21px; font-weight:800; margin-top:10px; margin-bottom:20px; }
+.reserve-form{ display:flex; flex-direction:column; gap:14px; }
+.reserve-form label{ display:flex; flex-direction:column; gap:6px; font-size:13px; font-weight:600; color:var(--ink-soft); }
+.reserve-form input, .reserve-form textarea{
+  font-family:inherit; font-size:14.5px; color:var(--ink); border:1px solid var(--line-strong);
+  border-radius:6px; padding:11px 13px; outline:0; background:var(--paper);
+}
+.reserve-form input:focus, .reserve-form textarea:focus{ border-color:var(--forest-600); background:#fff; }
+.reserve-form textarea{ resize:vertical; font-weight:400; }
+.rm-row{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.rm-actions{ display:flex; justify-content:flex-end; gap:10px; margin-top:6px; }
+.reserve-feedback{ font-size:13px; min-height:18px; margin:0; }
+.reserve-feedback.is-error{ color:#c1443a; font-weight:600; }
+.reserve-feedback.is-success{ color:var(--forest-700, var(--forest-600)); font-weight:600; }
+
+/* 헤더 "내 예약" 뱃지 */
+.reserve-nav-link{ position:relative; display:inline-flex; align-items:center; gap:6px; }
+.reserve-badge{
+  display:none; align-items:center; justify-content:center; min-width:18px; height:18px; padding:0 4px;
+  border-radius:999px; background:var(--amber); color:#241a08; font-size:10.5px; font-weight:800;
+}
+
+/* 내 예약 목록 */
+.reservation-item{ display:flex; align-items:flex-start; justify-content:space-between; gap:20px; margin-bottom:16px; }
+.reservation-item h4{ font-size:16px; font-weight:700; margin-bottom:6px; }
+.ri-cancel{ flex:none; font-size:12.5px; padding:9px 16px; }
+.reservation-empty{
+  text-align:center; padding:60px 20px; color:var(--ink-soft); border:1px dashed var(--line-strong); border-radius:10px;
+}
+
+@media(max-width:520px){
+  .rm-row{ grid-template-columns:1fr; }
+  .reserve-modal-panel{ margin-top:6vh; padding:26px 20px 22px; }
+}

@@ -31,20 +31,6 @@
     document.querySelectorAll('[data-reveal]').forEach(function(el){ el.classList.add('is-visible'); });
   }
 
-  // 생태계 탭 전환 (오늘의 생태 / 생태계 선택)
-  var tabs = document.querySelectorAll('.eco-tab');
-  if(tabs.length){
-    var panels = document.querySelectorAll('[data-eco-panel]');
-    tabs.forEach(function(tab){
-      tab.addEventListener('click', function(){
-        tabs.forEach(function(t){ t.classList.remove('is-active'); t.setAttribute('aria-selected','false'); });
-        tab.classList.add('is-active');
-        tab.setAttribute('aria-selected','true');
-        var key = tab.getAttribute('data-eco-tab');
-        panels.forEach(function(p){
-          p.hidden = p.getAttribute('data-eco-panel') !== key;
-        });
-      });
-    });
-  }
+  // 생태계 탭 전환(생태 탐험 지도 클릭·활성화)은 data.js 의 renderHome() 에서
+  // 데이터 로드 이후 동적으로 생성된 탭 요소에 이벤트를 직접 바인딩해 처리합니다.
 })();
