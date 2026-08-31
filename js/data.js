@@ -530,25 +530,6 @@
       img.style.transition = 'transform .05s linear';
       apply();
 
-      // 마우스 휠 확대·축소
-      mapEl.addEventListener('wheel', function(e){
-        e.preventDefault();
-        var delta = e.deltaY > 0 ? -0.1 : 0.1;
-        setScale(state.scale + delta);
-      }, { passive:false });
-
-      // +/-/리셋 버튼
-      if(zoomControls){
-        zoomControls.addEventListener('click', function(e){
-          var btn = e.target.closest('.map-zoom-btn');
-          if(!btn || btn.disabled) return;
-          var action = btn.getAttribute('data-zoom');
-          if(action === 'in') setScale(state.scale + STEP);
-          else if(action === 'out') setScale(state.scale - STEP);
-          else if(action === 'reset') resetView();
-        });
-      }
-
       // 모바일 핀치 줌(두 손가락)만 지원 — 한 손가락 드래그 이동 기능은 제공하지 않습니다.
       var pinch = { active:false, startDist:0, startScale:1 };
       function touchDist(t0, t1){
