@@ -48,8 +48,8 @@
   function ecosystemFeatureBlock(eco){
     var speciesList = pick(DB.species, eco.speciesIds);
     var feature = (
-      '<div class="card species-feature" data-reveal data-parallax data-tilt>' +
-        '<div class="card-media"><span class="card-tag">' + esc(eco.name) + ' · 3D 지도 확대·축소·드래그</span>' +
+      '<div class="card species-feature" data-reveal data-parallax>' +
+        '<div class="card-media">' +
         '<img src="' + esc(eco.image) + '" alt="' + esc(eco.name) + '"></div>' +
         '<div class="card-body"><h3>' + esc(eco.name) + '</h3><p>' + esc(eco.description) + '</p>' +
         '<div class="link-flow">생태계<span class="arrow">→</span><b>' +
@@ -58,7 +58,7 @@
     );
     var side = speciesList.slice(0, 2).map(function(sp){
       return (
-        '<a class="card" href="species.html?id=' + esc(sp.id) + '" data-reveal data-parallax data-tilt>' +
+        '<a class="card" href="species.html?id=' + esc(sp.id) + '" data-reveal data-parallax>' +
           '<div class="card-media"><img src="' + esc(sp.image) + '" alt="' + esc(sp.name) + '"></div>' +
           '<div class="card-body"><h3>' + esc(sp.name) + ' <span class="sci">' + esc(sp.scientificName) + '</span></h3>' +
           '<p>' + esc(sp.protectionLevel) + '</p><span class="card-link">생물 상세 보기 →</span></div>' +
@@ -493,59 +493,83 @@
       var img = mapEl.querySelector('img');
       var pins = mapEl.querySelector('#map-pins') || mapEl.querySelector('.map-pins');
       var note = mapEl.querySelector('.map-note');
+      var zoomControls = mapEl.querySelector('.map-zoom-controls');
       if(!img) return;
 
-      var state = { x:0, y:0, scale:1, dragging:false, sx:0, sy:0 };
-      function apply(){
-        var t = 'translate(' + state.x + 'px,' + state.y + 'px) scale(' + state.scale + ')';
-        img.style.transform = t;
-        img.style.transformOrigin = '0 0';
-        if(pins){ pins.style.transform = t; pins.style.transformOrigin = '0 0'; }
-      }
-      img.style.willChange = 'transform';
-      img.style.cursor = 'grab';
-      img.style.transition = 'transform .05s linear';
+      var MIN_SCALE = 1, MAX_SCALE = 2.4, STEP = 0.3;
+      var state = { scale:1 };
 
+      function apply(){
+        var t = 'scale(' + state.scale + ')';
+        img.style.transform = t;
+        img.style.transformOrigin = '50% 50%';
+        if(pins){ pins.style.transform = t; pins.style.transformOrigin = '50% 50%'; }
+        updateZoomButtons();
+      }
+      function updateZoomButtons(){
+        if(!zoomControls) return;
+        var inBtn = zoomControls.querySelector('[data-zoom="in"]');
+        var outBtn = zoomControls.querySelector('[data-zoom="out"]');
+        var resetBtn = zoomControls.querySelector('[data-zoom="reset"]');
+        if(inBtn) inBtn.disabled = state.scale >= MAX_SCALE - 0.001;
+        if(outBtn) outBtn.disabled = state.scale <= MIN_SCALE + 0.001;
+        if(resetBtn) resetBtn.disabled = state.scale <= MIN_SCALE + 0.001;
+      }
+      function setScale(next){
+        state.scale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, next));
+        apply();
+        if(note) note.style.opacity = state.scale > MIN_SCALE ? '0' : '';
+      }
+      function resetView(){
+        state.scale = MIN_SCALE;
+        apply();
+        if(note) note.style.opacity = '';
+      }
+
+      img.style.willChange = 'transform';
+      img.style.transition = 'transform .05s linear';
+      apply();
+
+      // 마우스 휠 확대·축소
       mapEl.addEventListener('wheel', function(e){
         e.preventDefault();
         var delta = e.deltaY > 0 ? -0.1 : 0.1;
-        state.scale = Math.min(2.4, Math.max(1, state.scale + delta));
-        if(state.scale === 1){ state.x = 0; state.y = 0; }
-        apply();
+        setScale(state.scale + delta);
       }, { passive:false });
 
-      img.addEventListener('mousedown', function(e){
-        e.preventDefault();
-        state.dragging = true; state.sx = e.clientX - state.x; state.sy = e.clientY - state.y;
-        img.style.cursor = 'grabbing';
-        if(note) note.style.opacity = '0';
-      });
-      window.addEventListener('mousemove', function(e){
-        if(!state.dragging) return;
-        var maxOffset = 120 * state.scale;
-        state.x = Math.max(-maxOffset, Math.min(maxOffset, e.clientX - state.sx));
-        state.y = Math.max(-maxOffset, Math.min(maxOffset, e.clientY - state.sy));
-        apply();
-      });
-      window.addEventListener('mouseup', function(){
-        state.dragging = false;
-        if(img) img.style.cursor = 'grab';
-      });
+      // +/-/리셋 버튼
+      if(zoomControls){
+        zoomControls.addEventListener('click', function(e){
+          var btn = e.target.closest('.map-zoom-btn');
+          if(!btn || btn.disabled) return;
+          var action = btn.getAttribute('data-zoom');
+          if(action === 'in') setScale(state.scale + STEP);
+          else if(action === 'out') setScale(state.scale - STEP);
+          else if(action === 'reset') resetView();
+        });
+      }
 
-      // 터치 지원 (모바일 드래그)
+      // 모바일 핀치 줌(두 손가락)만 지원 — 한 손가락 드래그 이동 기능은 제공하지 않습니다.
+      var pinch = { active:false, startDist:0, startScale:1 };
+      function touchDist(t0, t1){
+        var dx = t0.clientX - t1.clientX, dy = t0.clientY - t1.clientY;
+        return Math.sqrt(dx*dx + dy*dy);
+      }
       img.addEventListener('touchstart', function(e){
-        var t = e.touches[0];
-        state.dragging = true; state.sx = t.clientX - state.x; state.sy = t.clientY - state.y;
+        if(e.touches.length === 2){
+          pinch.active = true;
+          pinch.startDist = touchDist(e.touches[0], e.touches[1]);
+          pinch.startScale = state.scale;
+        }
       }, {passive:true});
       img.addEventListener('touchmove', function(e){
-        if(!state.dragging) return;
-        var t = e.touches[0];
-        var maxOffset = 120 * state.scale;
-        state.x = Math.max(-maxOffset, Math.min(maxOffset, t.clientX - state.sx));
-        state.y = Math.max(-maxOffset, Math.min(maxOffset, t.clientY - state.sy));
-        apply();
+        if(!pinch.active || e.touches.length !== 2) return;
+        var dist = touchDist(e.touches[0], e.touches[1]);
+        setScale(pinch.startScale * (dist / pinch.startDist));
       }, {passive:true});
-      img.addEventListener('touchend', function(){ state.dragging = false; });
+      img.addEventListener('touchend', function(e){
+        if(e.touches.length < 2) pinch.active = false;
+      });
     });
   }
 
