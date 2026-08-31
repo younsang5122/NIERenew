@@ -42,27 +42,40 @@
 
 <main id="main">
 
-  <!-- 생물 상세: data/species.json 을 기반으로 JS가 채워 넣습니다 (?id=수달ID 로 특정 생물 지정 가능) -->
-  <section class="species-hero">
-    <div class="species-hero-media">
-      <div class="species-badges">
-        <span class="badge badge-3d" id="sp-badge-3d">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l9 5-9 5-9-5 9-5zM3 12l9 5 9-5M3 17l9 5 9-5"/></svg>
-          3D Model
-        </span>
-        <span class="badge badge-danger" id="sp-badge-level">정보 확인 중</span>
-      </div>
-      <img id="sp-hero-img" src="data:," alt="">
-    </div>
+  <section class="search-hero">
     <div class="wrap">
-      <div class="species-intro">
+      <span class="eyebrow" id="sp-eyebrow">생물 발견 · Species Detail</span>
+      <h1 id="sp-title">생물 정보를 불러오는 중…</h1>
+      <p id="sp-sub-desc" style="color:var(--sage-300); margin-top:8px; font-size:16px; font-style:italic; font-family:serif;"></p>
+    </div>
+  </section>
+
+  <section class="section" style="background:#fff; border-bottom:1px solid var(--line); padding-top:40px; padding-bottom:40px;">
+    <div class="wrap">
+      <div class="species-intro" style="padding:0;">
         <div data-reveal>
-          <span class="eyebrow">핵심 기능 · 생물 탐색</span>
-          <h1 id="sp-title" style="margin-top:14px;">생물 정보를 불러오는 중…</h1>
+          <div style="display:flex; gap:10px; margin-bottom:16px; align-items:center;">
+            <span class="badge badge-danger" id="sp-badge-level">정보 확인 중</span>
+            <span class="badge" id="sp-badge-3d" style="background:var(--sage-200); color:var(--forest-800); font-weight:700; display:inline-flex; align-items:center; gap:6px;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l9 5-9 5-9-5 9-5zM3 12l9 5 9-5M3 17l9 5 9-5"/></svg>
+              3D Model 제공
+            </span>
+          </div>
           <div id="sp-desc"></div>
           <div class="link-flow" id="sp-flow" style="margin-top:20px;"></div>
+
+          <!-- 선택식 노출 이미지/미디어 박스 -->
+          <div class="data-media" id="sp-media-container" style="margin-top:32px; border-radius:12px; overflow:hidden; aspect-ratio:16/9; background:var(--forest-900);">
+            <img id="sp-hero-img" src="data:," alt="" style="display:none; width:100%; height:100%; object-fit:cover;">
+            <div class="data-overlay" id="sp-media-overlay" style="display:flex; align-items:center; justify-content:center; cursor:pointer;">
+              <span class="data-overlay-btn" id="btn-show-media">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:6px;"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                대표 이미지 보기
+              </span>
+            </div>
+          </div>
         </div>
-        <div class="fact-panel" data-reveal>
+        <div class="fact-panel" data-reveal style="align-self:start;">
           <h3>주요 정보</h3>
           <div id="sp-facts"></div>
           <a href="index.html#ecosystems" id="sp-cta" class="btn btn-ghost" style="margin-top:18px; width:100%;">생태계 탐험하기 →</a>

@@ -162,9 +162,11 @@
   // ---------------------------------------------------------
   function renderSpeciesDetail(sp){
     var heroImg = document.getElementById('sp-hero-img');
+    var mediaOverlay = document.getElementById('sp-media-overlay');
     var badgeLevel = document.getElementById('sp-badge-level');
     var badge3d = document.getElementById('sp-badge-3d');
     var titleEl = document.getElementById('sp-title');
+    var subDescEl = document.getElementById('sp-sub-desc');
     var descEl = document.getElementById('sp-desc');
     var flowEl = document.getElementById('sp-flow');
     var factsEl = document.getElementById('sp-facts');
@@ -172,12 +174,26 @@
     if(!titleEl) return;
 
     document.title = sp.name + ' | 생물 발견 | 국립생태원';
-    // 히어로 영역의 대표 이미지는 이 한 요소(sp-hero-img)만 sp.image와 연결됩니다.
-    if(heroImg){ heroImg.src = sp.image; heroImg.alt = sp.name; }
+    
+    // 대표 이미지 초기화 (기본 상태는 이미지 숨김, 오버레이 노출)
+    if(heroImg){ 
+      heroImg.src = sp.image; 
+      heroImg.alt = sp.name; 
+      heroImg.style.display = 'none';
+    }
+    if(mediaOverlay){
+      mediaOverlay.style.display = 'flex';
+      mediaOverlay.onclick = function(){
+        if(heroImg) heroImg.style.display = 'block';
+        mediaOverlay.style.display = 'none';
+      };
+    }
+
     if(badgeLevel) badgeLevel.textContent = sp.protectionLevel;
-    // 3D 모델이 실제로 있는 생물만 "3D Model" 배지를 노출합니다.
     if(badge3d) badge3d.style.display = sp.model3D ? 'inline-flex' : 'none';
-    titleEl.innerHTML = esc(sp.name) + ' <span class="sci">' + esc(sp.scientificName) + '</span>';
+    
+    if(titleEl) titleEl.textContent = sp.name;
+    if(subDescEl) subDescEl.textContent = sp.scientificName;
     if(descEl) descEl.innerHTML = sp.description.split('\n').map(function(p){ return '<p class="desc">' + nl2br(p) + '</p>'; }).join('');
 
     var eco = byId(DB.ecosystems, sp.ecosystemId);
