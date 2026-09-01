@@ -44,7 +44,7 @@
 
   <section class="search-hero">
     <div class="wrap">
-      <span class="eyebrow">핵심 기능 · 통합 검색</span>
+      <span class="eyebrow">통합 검색</span>
       <h1 style="font-size:clamp(28px,4vw,42px); font-weight:800; margin-top:14px;">생물·생태계·전시·교육·연구를<br>한 번에 검색하세요</h1>
       <form class="big-search" role="search" action="species.html" method="get" data-reveal>
         <input type="search" name="q" placeholder="예: 수달, 열대 생태계, 어린이 프로그램…" aria-label="통합 검색어 입력">
@@ -63,7 +63,30 @@
       <div class="section-head" data-reveal>
         <span class="eyebrow">연구·생태 콘텐츠</span>
         <h2>연구자료와 생태 데이터를<br>그래프·시각화로 확인하세요</h2>
-        <p>모든 자료는 관련 생물·생태계 콘텐츠와 자동으로 연결됩니다.</p>
+        <p>관련된 생물·생태계 콘텐츠가 있는 자료는 자동으로 연결됩니다.</p>
+      </div>
+
+      <div class="data-panel" data-reveal style="margin-bottom:28px;">
+        <div>
+          <h3 style="font-size:24px; font-weight:800; line-height:1.35;">한반도 기온 변화 추이 (2000–2023)</h3>
+          <p style="margin-top:14px; color:var(--ink-soft); font-size:15.5px; line-height:1.7;">지난 20여 년간 한반도의 평균 기온 변화를 나타내는 데이터입니다. 온난화 추세를 그래프로 직접 확인해보세요.</p>
+        </div>
+        <div class="data-media" id="data-media">
+          <img src="assets/img/species-data-tablet.jpg" alt="현장에서 태블릿으로 확인하는 생태 데이터 그래프">
+          <div class="data-overlay" id="data-overlay-toggle">
+            <span class="data-overlay-btn">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg>
+              그래프 보기
+            </span>
+          </div>
+          <div class="chart-panel" id="chart-panel" hidden>
+            <button type="button" class="chart-back" id="chart-back" aria-label="사진으로 돌아가기">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+              사진으로 보기
+            </button>
+            <canvas id="temp-chart" role="img" aria-label="한반도 기온 이상 편차 그래프 (2000년~2023년)"></canvas>
+          </div>
+        </div>
       </div>
 
       <div class="grid-2" id="research-featured">
@@ -75,6 +98,12 @@
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg>
           자료실
         </h3>
+        <div class="filter-row" style="margin-bottom:8px;">
+          <div class="filter-select">
+            <span>유형</span>
+            <select id="filter-research-type"><option value="">전체</option></select>
+          </div>
+        </div>
         <div class="research-list" id="research-list"></div>
       </div>
     </div>
@@ -99,6 +128,7 @@
 </footer>
 
 <script src="js/main.js"></script>
+<script src="js/chart.js"></script>
 <script src="js/data.js"></script>
 <script src="js/reserve.js"></script>
 </body>

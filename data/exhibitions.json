@@ -39,6 +39,6 @@
     "facilities": ["가족 코스", "단체 코스"],
     "recommendedRoute": ["방문자 센터", "에코리움 전관"],
     "reservationUrl": "#",
-    "ecosystemId": "polar"
+    "ecosystemId": null
   }
 ]

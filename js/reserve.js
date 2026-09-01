@@ -145,13 +145,13 @@
     if(!el) return;
     if(el.hasAttribute('data-no-modal')) return; // 실제 페이지 이동이 목적인 링크는 모달을 띄우지 않음
     var text = label(el);
-    var isReserveTrigger = /^(신청하기|예약하기|해설 예약하기)$/.test(text);
+    var isReserveTrigger = /^(신청하기|예약하기)$/.test(text);
     if(!isReserveTrigger) return;
 
     e.preventDefault();
     var card = el.closest('.card, .info-tile');
     var itemTitle = card ? (card.querySelector('h3, h4') || {}).textContent : text;
-    var type = text === '해설 예약하기' ? '생태 해설 프로그램' : (text === '신청하기' ? '교육 프로그램' : '전시 예약');
+    var type = text === '신청하기' ? '교육 프로그램' : '전시 예약';
     openModal(itemTitle ? itemTitle.trim() : text, type, itemTitle ? itemTitle.trim() : text);
   });
 
@@ -183,12 +183,14 @@
               '<span>🗓 ' + escHtml(dateStr) + '</span><span>👥 ' + escHtml(r.people) + '명</span></div>' +
               (r.note ? '<p style="margin-top:8px; font-size:13px; color:var(--ink-soft);">' + escHtml(r.note) + '</p>' : '') +
             '</div>' +
-            '<button type="button" class="btn btn-ghost ri-cancel" data-id="' + r.id + '">예약 취소</button>' +
+            '<button type="button" class="btn btn-ghost ri-cancel" data-id="' + r.id + '" data-item="' + escHtml(r.item) + '">예약 취소</button>' +
           '</div>'
         );
       }).join('');
       listEl.querySelectorAll('.ri-cancel').forEach(function(btn){
         btn.addEventListener('click', function(){
+          var item = btn.getAttribute('data-item') || '이 예약';
+          if(!window.confirm('"' + item + '" 예약을 취소하시겠어요? 이 작업은 되돌릴 수 없습니다.')) return;
           removeReservation(btn.getAttribute('data-id'));
           paint();
         });

@@ -35,7 +35,7 @@
   // ---------------------------------------------------------
   function speciesCard(sp){
     return (
-      '<a class="card" href="species.html?id=' + esc(sp.id) + '" data-reveal data-tilt>' +
+      '<a class="card" href="species.html?id=' + esc(sp.id) + '" data-reveal>' +
         '<div class="card-media"><span class="card-tag">' + esc(sp.protectionLevel) + '</span>' +
         '<img src="' + esc(sp.image) + '" alt="' + esc(sp.name) + '"></div>' +
         '<div class="card-body"><h3>' + esc(sp.name) + ' <span class="sci">' + esc(sp.scientificName) + '</span></h3>' +
@@ -84,12 +84,14 @@
 
     tabsEl.innerHTML = DB.ecosystems.map(function(eco, i){
       return '<button class="eco-tab' + (i === 0 ? ' is-active' : '') + '" role="tab" ' +
+        'id="eco-tab-' + esc(eco.id) + '" aria-controls="eco-panel" ' +
         'aria-selected="' + (i === 0 ? 'true' : 'false') + '" data-eco-tab="' + esc(eco.id) + '">' + esc(eco.name) + '</button>';
     }).join('');
 
     function paint(ecoId){
       var eco = byId(DB.ecosystems, ecoId) || DB.ecosystems[0];
       panelEl.innerHTML = ecosystemFeatureBlock(eco);
+      panelEl.setAttribute('aria-labelledby', 'eco-tab-' + eco.id);
       revealNow(panelEl);
     }
     tabsEl.addEventListener('click', function(e){
@@ -162,9 +164,7 @@
   // ---------------------------------------------------------
   function renderSpeciesDetail(sp){
     var heroImg = document.getElementById('sp-hero-img');
-    var mediaOverlay = document.getElementById('sp-media-overlay');
     var badgeLevel = document.getElementById('sp-badge-level');
-    var badge3d = document.getElementById('sp-badge-3d');
     var titleEl = document.getElementById('sp-title');
     var subDescEl = document.getElementById('sp-sub-desc');
     var descEl = document.getElementById('sp-desc');
@@ -174,24 +174,14 @@
     if(!titleEl) return;
 
     document.title = sp.name + ' | 생물 발견 | 국립생태원';
-    
-    // 대표 이미지 초기화 (기본 상태는 이미지 숨김, 오버레이 노출)
-    if(heroImg){ 
-      heroImg.src = sp.image; 
-      heroImg.alt = sp.name; 
-      heroImg.style.display = 'none';
-    }
-    if(mediaOverlay){
-      mediaOverlay.style.display = 'flex';
-      mediaOverlay.onclick = function(){
-        if(heroImg) heroImg.style.display = 'block';
-        mediaOverlay.style.display = 'none';
-      };
+
+    if(heroImg){
+      heroImg.src = sp.image;
+      heroImg.alt = sp.name;
     }
 
     if(badgeLevel) badgeLevel.textContent = sp.protectionLevel;
-    if(badge3d) badge3d.style.display = sp.model3D ? 'inline-flex' : 'none';
-    
+
     if(titleEl) titleEl.textContent = sp.name;
     if(subDescEl) subDescEl.textContent = sp.scientificName;
     if(descEl) descEl.innerHTML = sp.description.split('\n').map(function(p){ return '<p class="desc">' + nl2br(p) + '</p>'; }).join('');
@@ -286,7 +276,6 @@
   // 전시·관람 페이지
   // ---------------------------------------------------------
   function exhibitionCard(ex){
-    var badgeClass = ex.period === '상설전시' ? '' : '';
     return (
       '<div class="card" data-reveal>' +
         '<div class="card-media"><span class="card-tag">' + esc(ex.period) + '</span>' +
@@ -323,7 +312,7 @@
         '<div class="card-media"><span class="card-tag">' + esc(ed.category) + '</span>' +
         '<img src="' + esc(ed.image) + '" alt="' + esc(ed.title) + '"></div>' +
         '<div class="card-body"><h3>' + esc(ed.title) + '</h3><p>' + esc(ed.description) + '</p>' +
-        '<div class="meta-row"><span>🗓 ' + esc(ed.date) + '</span><span>⏱ ' + esc(ed.duration) + '</span></div>' +
+        '<div class="meta-row"><span>📍 ' + esc(ed.location) + '</span><span>🗓 ' + esc(ed.date) + '</span><span>⏱ ' + esc(ed.duration) + '</span></div>' +
         '<a href="#" class="btn btn-primary" style="margin-top:16px; width:100%;">신청하기</a></div>' +
       '</div>'
     );
@@ -407,16 +396,38 @@
   // 생태 자료(연구) 페이지 + 통합 검색
   // ---------------------------------------------------------
   function researchItemHTML(r){
-    return '<div class="research-item"><span class="r-icon" aria-hidden="true">' + docIcon() + '</span>' +
-      '<div><h4>' + esc(r.title) + '</h4><p>' + esc(r.description) + '</p></div></div>';
+    var linkedSpecies = pick(DB.species, r.speciesIds)[0];
+    var linkedEco = pick(DB.ecosystems, r.ecosystemIds)[0];
+    var href = linkedSpecies ? 'species.html?id=' + encodeURIComponent(linkedSpecies.id) :
+      (linkedEco ? 'index.html?eco=' + encodeURIComponent(linkedEco.id) + '#ecosystems' : '');
+    var tag = href ? 'a' : 'div';
+    var hrefAttr = href ? ' href="' + esc(href) + '"' : '';
+    return '<' + tag + ' class="research-item"' + hrefAttr + '><span class="r-icon" aria-hidden="true">' + docIcon() + '</span>' +
+      '<div><h4>' + esc(r.title) + '</h4><p>' + esc(r.description) + '</p></div></' + tag + '>';
   }
 
   function renderDataPage(){
     var listEl = document.getElementById('research-list');
     var featuredEl = document.getElementById('research-featured');
-    if(listEl){
-      listEl.innerHTML = DB.research.map(researchItemHTML).join('');
+    var typeFilter = document.getElementById('filter-research-type');
+
+    if(typeFilter){
+      var types = Array.from(new Set(DB.research.map(function(r){ return r.type; })));
+      typeFilter.innerHTML = '<option value="">전체</option>' + types.map(function(t){
+        return '<option value="' + esc(t) + '">' + esc(t) + '</option>';
+      }).join('');
     }
+    function paintList(){
+      if(!listEl) return;
+      var t = typeFilter ? typeFilter.value : '';
+      var list = DB.research.filter(function(r){ return !t || r.type === t; });
+      listEl.innerHTML = list.length ? list.map(researchItemHTML).join('') :
+        '<p style="color:var(--ink-soft);">해당 유형의 자료가 없습니다.</p>';
+      revealNow(listEl);
+    }
+    if(typeFilter) typeFilter.addEventListener('change', paintList);
+    paintList();
+
     if(featuredEl){
       var featured = DB.research.filter(function(r){ return r.image; }).slice(0,2);
       featuredEl.innerHTML = featured.map(function(r){
@@ -431,6 +442,8 @@
       }).join('');
       revealNow(featuredEl);
     }
+
+    setupChartToggle(byId(DB.research, 'temperature-trend'));
   }
 
   // ---------------------------------------------------------
@@ -506,6 +519,7 @@
   // ---------------------------------------------------------
   function setupInteractiveMap(){
     document.querySelectorAll('.map-explore').forEach(function(mapEl){
+      if(mapEl.hasAttribute('data-static-map')) return; // 정적 지도(기후대별 생태 탐험 섹션): 확대·축소·핀 기능 없음
       var img = mapEl.querySelector('img');
       var pins = mapEl.querySelector('#map-pins') || mapEl.querySelector('.map-pins');
       var note = mapEl.querySelector('.map-note');

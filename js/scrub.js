@@ -117,6 +117,14 @@
   resizeCanvas();
 
   loadFrame(0).then(function(){
+    // 프레임 이미지(assets/frames/scrub_001.jpg 등)가 없을 때: 정적 이미지로 폴백
+    if(!images[0] || images[0].naturalWidth === 0){
+      fallbackImg.src = 'assets/img/ecorium-dome-wide.jpg';
+      fallbackImg.style.display = 'block';
+      canvas.style.display = 'none';
+      updateTelemetry(0, 0);
+      return;
+    }
     ready = true;
     drawFrame(0);
     updateTelemetry(0, 0);

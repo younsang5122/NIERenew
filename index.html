@@ -56,7 +56,7 @@
           <div class="scrub-title">
             <span class="eyebrow">생태 탐험 · Ecological Exploration</span>
             <h1>자연을 탐험하고<br>생명의 이야기를 경험하세요</h1>
-            <p>국립생태원 상공 드론 항공 촬영 영상을 스크롤에 따라 직접 조종하듯 탐험해보세요. 열대부터 극지까지, 5대 기후대의 생태계가 눈앞에 펼쳐집니다.</p>
+            <p>국립생태원 상공 드론 항공 촬영 영상을 스크롤에 따라 직접 조종하듯 탐험해보세요. 열대부터 극지까지, 4대 기후대의 생태계가 눈앞에 펼쳐집니다.</p>
             <div class="scrub-actions">
               <a href="#ecosystems" class="btn btn-amber">탐험 시작하기</a>
               <a href="exhibition.html#reserve" class="btn btn-outline-invert" data-no-modal>예약하기</a>
@@ -101,16 +101,22 @@
     <div class="wrap">
       <div class="section-head">
         <span class="eyebrow">기후대별 생태 탐험</span>
-        <h2>5대 기후대 생태계와 생물,<br>전시와 교육으로 이어지는 배움</h2>
-        <p>열대부터 극지까지 국립생태원의 5대 기후관별 대표 생태계를 탐색해 보세요. 기후관을 선택하면 서식하는 다양한 생물들의 상세 정보와 특징을 확인할 수 있으며, 이와 연계된 전시, 체험 교육 프로그램 정보까지 자연스럽게 연결되어 아이들의 흥미로운 생태 학습을 돕습니다.</p>
+        <h2>4대 기후대 생태계와 생물,<br>전시와 교육으로 이어지는 배움</h2>
+        <p>열대부터 극지까지 국립생태원의 4대 기후관별 대표 생태계를 탐색해 보세요. 기후관을 선택하면 서식하는 다양한 생물들의 상세 정보와 특징을 확인할 수 있으며, 이와 연계된 전시, 체험 교육 프로그램 정보까지 자연스럽게 연결되어 아이들의 흥미로운 생태 학습을 돕습니다.</p>
+        <div class="data-tags" style="margin-top:18px;">
+        </div>
       </div>
 
-      <div class="eco-tabs" role="tablist" aria-label="생태계 기후대 선택" id="eco-tabs">
+      <div class="map-explore" style="margin-top:32px;" data-reveal data-static-map>
+        <img src="assets/img/ecorium-dome-wide.jpg" alt="국립생태원 전체 구역 지도 — 열대·사막·온대·극지 생태관 위치 안내">
+      </div>
+
+      <div class="eco-tabs" role="tablist" aria-label="생태계 기후대 선택" id="eco-tabs" style="margin-top:36px;">
         <!-- data/ecosystems.json 기반으로 JS가 자동 생성합니다 -->
         <span style="color:var(--ink-soft); font-size:13.5px;">생태계 데이터를 불러오는 중…</span>
       </div>
 
-      <div id="eco-panel" aria-live="polite">
+      <div id="eco-panel" role="tabpanel" tabindex="0" aria-live="polite">
         <!-- 선택한 기후대의 대표 생물이 JS로 렌더링됩니다 -->
       </div>
 
@@ -125,6 +131,7 @@
       <div class="section-head">
         <span class="eyebrow">연계 프로그램 및 연구</span>
         <h2>탐험은 전시·교육·연구로 이어집니다</h2>
+        <p>관심 있는 기후관을 둘러봤다면, 관련된 전시·교육 프로그램과 최신 연구자료로 자연스럽게 이어서 살펴보세요.</p>
       </div>
       <div class="info-tiles" id="linked-programs">
         <!-- data/*.json 기반 연계 콘텐츠가 JS로 렌더링됩니다 -->

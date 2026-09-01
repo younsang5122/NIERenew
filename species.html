@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>생물 발견 | 국립생태원</title>
-<meta name="description" content="분류·서식지·보호등급 정보로 만나는 국립생태원의 생물 도감. 일부 생물은 3D 모델도 제공됩니다.">
+<meta name="description" content="분류·서식지·보호등급 정보로 만나는 국립생태원의 생물 도감.">
 <link rel="icon" href="data:,">
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/home.css">
@@ -44,7 +44,7 @@
 
   <section class="search-hero">
     <div class="wrap">
-      <span class="eyebrow" id="sp-eyebrow">생물 발견 · Species Detail</span>
+      <span class="eyebrow" id="sp-eyebrow">생물 발견</span>
       <h1 id="sp-title">생물 정보를 불러오는 중…</h1>
       <p id="sp-sub-desc" style="color:var(--sage-300); margin-top:8px; font-size:16px; font-style:italic; font-family:serif;"></p>
     </div>
@@ -56,23 +56,13 @@
         <div data-reveal>
           <div style="display:flex; gap:10px; margin-bottom:16px; align-items:center;">
             <span class="badge badge-danger" id="sp-badge-level">정보 확인 중</span>
-            <span class="badge" id="sp-badge-3d" style="background:var(--sage-200); color:var(--forest-800); font-weight:700; display:inline-flex; align-items:center; gap:6px;">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l9 5-9 5-9-5 9-5zM3 12l9 5 9-5M3 17l9 5 9-5"/></svg>
-              3D Model 제공
-            </span>
           </div>
           <div id="sp-desc"></div>
           <div class="link-flow" id="sp-flow" style="margin-top:20px;"></div>
 
           <!-- 선택식 노출 이미지/미디어 박스 -->
           <div class="data-media" id="sp-media-container" style="margin-top:32px; border-radius:12px; overflow:hidden; aspect-ratio:16/9; background:var(--forest-900);">
-            <img id="sp-hero-img" src="data:," alt="" style="display:none; width:100%; height:100%; object-fit:cover;">
-            <div class="data-overlay" id="sp-media-overlay" style="display:flex; align-items:center; justify-content:center; cursor:pointer;">
-              <span class="data-overlay-btn" id="btn-show-media">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:6px;"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-                대표 이미지 보기
-              </span>
-            </div>
+            <img id="sp-hero-img" src="data:," alt="" style="width:100%; height:100%; object-fit:cover;">
           </div>
         </div>
         <div class="fact-panel" data-reveal style="align-self:start;">
@@ -90,7 +80,7 @@
       <div class="section-head" data-reveal>
         <span class="eyebrow">생물 도감</span>
         <h2>기후대별 대표 생물</h2>
-        <p>카드를 클릭하면 분류·서식지·보호등급 정보를 확인할 수 있어요. (일부 생물은 3D 모델도 함께 제공됩니다)</p>
+        <p>카드를 클릭하면 분류·서식지·보호등급 정보를 확인할 수 있어요.</p>
       </div>
 
       <p id="species-search-notice" hidden style="font-size:13.5px; color:var(--ink-soft); margin:-14px 0 20px;"></p>
