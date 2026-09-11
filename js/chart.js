@@ -103,6 +103,23 @@
       ctx.textBaseline = 'top';
       ctx.fillText(opts.title, pad.left, 4);
     }
+
+    // 웹 접근성(a11y): 스크린리더를 위한 aria-label 및 대체 데이터 테이블 생성
+    var summary = (opts.title || '연구 데이터 차트') + ': ' + points.map(function(p){ return p.year + '년 ' + p.tempAnomaly + '℃'; }).join(', ');
+    canvas.setAttribute('role', 'img');
+    canvas.setAttribute('aria-label', summary);
+
+    var tableId = (canvas.id || 'chart') + '-table';
+    var existingTable = document.getElementById(tableId);
+    if(!existingTable){
+      var table = document.createElement('table');
+      table.id = tableId;
+      table.style.cssText = 'position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0;';
+      table.innerHTML = '<caption>' + (opts.title || '차트 데이터 상세') + '</caption>' +
+        '<thead><tr><th scope="col">연도</th><th scope="col">기온 편차(℃)</th></tr></thead>' +
+        '<tbody>' + points.map(function(p){ return '<tr><td>' + p.year + '년</td><td>+' + p.tempAnomaly + '℃</td></tr>'; }).join('') + '</tbody>';
+      if(canvas.parentNode) canvas.parentNode.appendChild(table);
+    }
   }
 
   window.NIECharts = { drawLineChart: drawLineChart };

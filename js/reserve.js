@@ -43,6 +43,7 @@
   // 모달 UI (한 번만 생성해 재사용)
   // ---------------------------------------------------------
   var modal, form, titleEl, typeInput, itemInput, feedbackEl;
+  var lastFocusedElement = null;
 
   function buildModal(){
     if(modal) return;
@@ -83,9 +84,29 @@
     modal.addEventListener('click', function(e){
       if(e.target.hasAttribute('data-close')) closeModal();
     });
-    document.addEventListener('keydown', function(e){
-      if(e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
+
+    // 접근성(a11y): 모달 키보드 포커스 트랩(Focus Trap) 및 Esc 닫기
+    modal.addEventListener('keydown', function(e){
+      if(e.key === 'Escape'){
+        closeModal();
+        return;
+      }
+      if(e.key === 'Tab'){
+        var focusables = modal.querySelectorAll('button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])');
+        if(!focusables.length) return;
+        var first = focusables[0];
+        var last = focusables[focusables.length - 1];
+
+        if(e.shiftKey && document.activeElement === first){
+          last.focus();
+          e.preventDefault();
+        } else if(!e.shiftKey && document.activeElement === last){
+          first.focus();
+          e.preventDefault();
+        }
+      }
     });
+
     form.addEventListener('submit', function(e){
       e.preventDefault();
       var fd = new FormData(form);
@@ -114,6 +135,7 @@
 
   function openModal(title, type, item){
     buildModal();
+    lastFocusedElement = document.activeElement;
     titleEl.textContent = title || '프로그램 예약';
     typeInput.value = type || '';
     itemInput.value = item || title || '';
@@ -132,6 +154,10 @@
     modal.classList.remove('is-open');
     modal.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
+    if(lastFocusedElement && typeof lastFocusedElement.focus === 'function'){
+      lastFocusedElement.focus();
+      lastFocusedElement = null;
+    }
   }
 
   // ---------------------------------------------------------

@@ -137,6 +137,12 @@
       if(idx >= frameCount) return;
       loadFrame(idx).then(function(){
         idx++;
+        // 첫 진입 스크롤이 없는 상태(index 0)에서는 로딩 진행도를 텔레메트리 바 opacity/data로 부드럽게 연동
+        if(ready && currentIndex === 0 && elBar){
+          var progressRatio = (loadedCount / frameCount);
+          elBar.style.opacity = '0.9';
+          elBar.style.width = Math.min(100, Math.max(5, progressRatio * 100)).toFixed(1) + '%';
+        }
         if(idx < frameCount) loadNext();
       });
     }

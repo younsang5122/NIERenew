@@ -81,6 +81,14 @@
   .scrub-telemetry .t-bar{display:none;}
   .scrub-scrolldown{display:none;}
 }
+@media(max-width:480px){
+  .scrub-hud{padding:90px 16px 28px;}
+  .scrub-telemetry{gap:10px 14px; font-size:11px; padding-top:12px;}
+  .scrub-telemetry .t-item{min-width:70px; gap:2px;}
+  .scrub-telemetry .t-value{font-size:12.5px;}
+  .eco-tabs{flex-wrap:nowrap; overflow-x:auto; padding-bottom:8px; -webkit-overflow-scrolling:touch;}
+  .eco-tab{flex:none; padding:9px 16px; font-size:13px;}
+}
 
 /* -------------------- Ecosystem tabs (오늘의 생태 / 생태 탐험 지도) -------------------- */
 .eco-tabs{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:36px;}

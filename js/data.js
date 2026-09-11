@@ -15,14 +15,29 @@
     });
   }
   function nl2br(str){ return esc(str).replace(/\n/g, '<br>'); }
+  function debounce(func, wait){
+    var timeout;
+    return function(){
+      var context = this, args = arguments;
+      clearTimeout(timeout);
+      timeout = setTimeout(function(){ func.apply(context, args); }, wait || 250);
+    };
+  }
+
+  function fetchJson(url){
+    return fetch(url).then(function(r){
+      if(!r.ok) throw new Error('HTTP ' + r.status + ' (' + url + ')');
+      return r.json();
+    });
+  }
 
   function loadAll(){
     return Promise.all([
-      fetch('data/species.json').then(function(r){ return r.json(); }),
-      fetch('data/ecosystems.json').then(function(r){ return r.json(); }),
-      fetch('data/exhibitions.json').then(function(r){ return r.json(); }),
-      fetch('data/education.json').then(function(r){ return r.json(); }),
-      fetch('data/research.json').then(function(r){ return r.json(); })
+      fetchJson('data/species.json'),
+      fetchJson('data/ecosystems.json'),
+      fetchJson('data/exhibitions.json'),
+      fetchJson('data/education.json'),
+      fetchJson('data/research.json')
     ]).then(function(res){
       DB.species = res[0]; DB.ecosystems = res[1]; DB.exhibitions = res[2];
       DB.education = res[3]; DB.research = res[4];
@@ -486,7 +501,7 @@
       }).join('');
       dropdown.hidden = false;
     }
-    input.addEventListener('input', function(){ paint(input.value); });
+    input.addEventListener('input', debounce(function(){ paint(input.value); }, 250));
     input.addEventListener('focus', function(){ if(input.value) paint(input.value); });
     document.addEventListener('click', function(e){
       if(!wrap.contains(e.target)) dropdown.hidden = true;
@@ -610,9 +625,18 @@
     }).catch(function(err){
       console.error('데이터 로드 실패:', err);
       var notice = document.createElement('div');
-      notice.style.cssText = 'background:#c1443a;color:#fff;padding:12px 20px;font-size:13px;text-align:center;';
-      notice.textContent = '데이터를 불러오지 못했습니다. 로컬 서버(예: python -m http.server)로 접속했는지 확인해주세요.';
+      notice.style.cssText = 'background:#c1443a;color:#fff;padding:14px 20px;font-size:14px;text-align:center;font-weight:500;z-index:9999;position:relative;line-height:1.5;';
+      notice.innerHTML = '⚠️ <strong>데이터 로드 실패</strong>: 데이터를 불러오지 못했습니다. <code>file://</code> 보안 제약 때문일 수 있으니 로컬 웹 서버(예: <code>npx serve</code> 또는 Python <code>python -m http.server</code>) 환경에서 실행해주세요.';
       document.body.prepend(notice);
+
+      var mainContent = document.getElementById('main') || document.body;
+      var panel = document.getElementById('eco-panel') || document.getElementById('species-list') || document.getElementById('exhibits-list');
+      if(panel){
+        panel.innerHTML = '<div style="padding:40px 20px; text-align:center; background:rgba(193,68,58,0.08); border:1px solid rgba(193,68,58,0.3); border-radius:12px; margin:20px 0;">' +
+          '<h3 style="color:#c1443a; margin:0 0 10px 0;">콘텐츠를 불러올 수 없습니다</h3>' +
+          '<p style="color:var(--ink-soft); margin:0;">데이터 통신 오류가 발생했습니다. 개발자 도구 콘솔(F12) 또는 로컬 서버 설정을 확인해주세요.</p>' +
+          '</div>';
+      }
     });
   });
 })();
