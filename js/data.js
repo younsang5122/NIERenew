@@ -31,6 +31,28 @@
     });
   }
 
+  var FALLBACK_DB = {
+    species: [
+      { id:'otter', name:'수달', scientificName:'Lutra lutra', protectionLevel:'멸종위기 I급', category:'포유류', habitat:'강·하천', image:'assets/img/otter-rock.jpg', ecosystemId:'tropical', description:'유라시아 대륙 전역의 깨끗한 물가에 서식하는 족제비과의 포유류입니다.', exhibitionIds:['climate-ecosystem'], researchIds:['temperature-trend'], facts:{ '서식지':'강, 호수, 해안', '수명':'10~15년' } },
+      { id:'fox', name:'사막여우', scientificName:'Vulpes zerda', protectionLevel:'관심대상(LC)', category:'포유류', habitat:'건조한 사막', image:'assets/img/desert-fox.jpg', ecosystemId:'desert', description:'북아프리카 사막 지대에 서식하는 체구가 가장 작은 여우입니다.', exhibitionIds:['climate-ecosystem'], researchIds:[], facts:{ '특징':'체온 조절을 돕는 큰 귀', '수명':'10~14년' } },
+      { id:'penguin', name:'젠투펭귄', scientificName:'Pygoscelis papua', protectionLevel:'취약(VU)', category:'조류', habitat:'남극 연안', image:'assets/img/polar-penguin.jpg', ecosystemId:'polar', description:'남극 주변 해역 및 섬에 서식하며 가장 빠른 수중 헤엄 실력을 자랑합니다.', exhibitionIds:['climate-ecosystem'], researchIds:[], facts:{ '특징':'머리 위 흰 띠 모양', '수명':'15~20년' } }
+    ],
+    ecosystems: [
+      { id:'tropical', name:'열대 기후관', description:'가장 다양한 생물종이 살아가는 덥고 습한 열대우림 생태계입니다.', image:'assets/img/tropical-hall-visitors.jpg', location:'에코리움 1층', speciesIds:['otter'], mapPosition:{x:32, y:45} },
+      { id:'desert', name:'사막 기후관', description:'건조하고 메마른 환경에 적응한 다육식물과 건조 동물들을 만납니다.', image:'assets/img/baobab-savanna.jpg', location:'에코리움 1층', speciesIds:['fox'], mapPosition:{x:60, y:38} },
+      { id:'polar', name:'극지 기후관', description:'얼음과 눈으로 덮인 극지방 생태계와 펭귄들의 삶을 살펴봅니다.', image:'assets/img/polar-penguin.jpg', location:'에코리움 2층', speciesIds:['penguin'], mapPosition:{x:80, y:65} }
+    ],
+    exhibitions: [
+      { id:'climate-ecosystem', title:'기후대별 생태관 상설전시', period:'상설전시', hours:'09:30 ~ 17:30', price:'성인 5,000원', image:'assets/img/ecorium-dome-wide.jpg', description:'열대부터 극지까지 지구상의 4대 기후 생태계를 한자리에서 체험합니다.', recommendedRoute:['열대관','사막관','온대관','극지관'] }
+    ],
+    education: [
+      { id:'microscope', title:'어린이 생태 탐구 교실', category:'체험교육', location:'생태교육관 2층', date:'매주 토요일 14:00', duration:'90분', target:'초등학생', image:'assets/img/edu-microscope-kids.jpg', description:'현미경을 직접 조작해 식물 세포와 작은 생물들을 관찰하는 체험 프로그램입니다.' }
+    ],
+    research: [
+      { id:'temperature-trend', title:'한반도 기온 변화 모니터링', type:'기후변화 보고서', description:'최근 50년간 한반도 평균 기온 이상 편차 데이터 및 온실가스 영향을 분석합니다.', image:'assets/img/species-data-tablet.jpg', data:[{year:1970,tempAnomaly:0.1},{year:1985,tempAnomaly:0.35},{year:2000,tempAnomaly:0.68},{year:2015,tempAnomaly:1.1},{year:2025,tempAnomaly:1.45}], ecosystemIds:['tropical'], speciesIds:['otter'] }
+    ]
+  };
+
   function loadAll(){
     return Promise.all([
       fetchJson('data/species.json'),
@@ -41,6 +63,14 @@
     ]).then(function(res){
       DB.species = res[0]; DB.ecosystems = res[1]; DB.exhibitions = res[2];
       DB.education = res[3]; DB.research = res[4];
+      return DB;
+    }).catch(function(err){
+      console.warn('Network fetch 실패, 기본 데이터셋으로 자동 폴백합니다:', err);
+      DB.species = FALLBACK_DB.species;
+      DB.ecosystems = FALLBACK_DB.ecosystems;
+      DB.exhibitions = FALLBACK_DB.exhibitions;
+      DB.education = FALLBACK_DB.education;
+      DB.research = FALLBACK_DB.research;
       return DB;
     });
   }
@@ -532,9 +562,12 @@
   // ---------------------------------------------------------
   // 인터랙티브 지도: 드래그 이동 + 휠 확대·축소
   // ---------------------------------------------------------
+  // ---------------------------------------------------------
+  // 인터랙티브 지도: 드래그 이동(Pan) + 확대·축소(Zoom)
+  // ---------------------------------------------------------
   function setupInteractiveMap(){
     document.querySelectorAll('.map-explore').forEach(function(mapEl){
-      if(mapEl.hasAttribute('data-static-map')) return; // 정적 지도(기후대별 생태 탐험 섹션): 확대·축소·핀 기능 없음
+      if(mapEl.hasAttribute('data-static-map')) return;
       var img = mapEl.querySelector('img');
       var pins = mapEl.querySelector('#map-pins') || mapEl.querySelector('.map-pins');
       var note = mapEl.querySelector('.map-note');
@@ -542,15 +575,30 @@
       if(!img) return;
 
       var MIN_SCALE = 1, MAX_SCALE = 2.4, STEP = 0.3;
-      var state = { scale:1 };
+      var state = { scale: 1, x: 0, y: 0 };
+      var isDragging = false;
+      var startPos = { x: 0, y: 0 };
+
+      function clampPan(){
+        var rect = mapEl.getBoundingClientRect();
+        var maxTx = (rect.width * (state.scale - 1)) / 2;
+        var maxTy = (rect.height * (state.scale - 1)) / 2;
+        state.x = Math.max(-maxTx, Math.min(maxTx, state.x));
+        state.y = Math.max(-maxTy, Math.min(maxTy, state.y));
+      }
 
       function apply(){
-        var t = 'scale(' + state.scale + ')';
+        clampPan();
+        var t = 'translate(' + state.x + 'px, ' + state.y + 'px) scale(' + state.scale + ')';
         img.style.transform = t;
         img.style.transformOrigin = '50% 50%';
-        if(pins){ pins.style.transform = t; pins.style.transformOrigin = '50% 50%'; }
+        if(pins){
+          pins.style.transform = t;
+          pins.style.transformOrigin = '50% 50%';
+        }
         updateZoomButtons();
       }
+
       function updateZoomButtons(){
         if(!zoomControls) return;
         var inBtn = zoomControls.querySelector('[data-zoom="in"]');
@@ -560,23 +608,65 @@
         if(outBtn) outBtn.disabled = state.scale <= MIN_SCALE + 0.001;
         if(resetBtn) resetBtn.disabled = state.scale <= MIN_SCALE + 0.001;
       }
+
       function setScale(next){
         state.scale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, next));
+        if(state.scale === MIN_SCALE){
+          state.x = 0;
+          state.y = 0;
+        }
         apply();
         if(note) note.style.opacity = state.scale > MIN_SCALE ? '0' : '';
       }
+
       function resetView(){
         state.scale = MIN_SCALE;
+        state.x = 0;
+        state.y = 0;
         apply();
         if(note) note.style.opacity = '';
       }
 
+      if(zoomControls){
+        var inBtn = zoomControls.querySelector('[data-zoom="in"]');
+        var outBtn = zoomControls.querySelector('[data-zoom="out"]');
+        var resetBtn = zoomControls.querySelector('[data-zoom="reset"]');
+        if(inBtn) inBtn.addEventListener('click', function(){ setScale(state.scale + STEP); });
+        if(outBtn) outBtn.addEventListener('click', function(){ setScale(state.scale - STEP); });
+        if(resetBtn) resetBtn.addEventListener('click', resetView);
+      }
+
       img.style.willChange = 'transform';
       img.style.transition = 'transform .05s linear';
+      img.style.userSelect = 'none';
+      img.style.touchAction = 'none';
       apply();
 
-      // 모바일 핀치 줌(두 손가락)만 지원 — 한 손가락 드래그 이동 기능은 제공하지 않습니다.
-      var pinch = { active:false, startDist:0, startScale:1 };
+      // 마우스/터치 드래그 이동 (Pan)
+      function onPointerDown(e){
+        if(state.scale <= MIN_SCALE) return;
+        isDragging = true;
+        startPos = { x: e.clientX - state.x, y: e.clientY - state.y };
+        mapEl.style.cursor = 'grabbing';
+      }
+      function onPointerMove(e){
+        if(!isDragging || state.scale <= MIN_SCALE) return;
+        state.x = e.clientX - startPos.x;
+        state.y = e.clientY - startPos.y;
+        apply();
+      }
+      function onPointerUp(){
+        if(!isDragging) return;
+        isDragging = false;
+        mapEl.style.cursor = state.scale > MIN_SCALE ? 'grab' : '';
+      }
+
+      mapEl.addEventListener('pointerdown', onPointerDown);
+      window.addEventListener('pointermove', onPointerMove);
+      window.addEventListener('pointerup', onPointerUp);
+
+      // 모바일 핀치 줌 (두 손가락)
+      var pinch = { active: false, startDist: 0, startScale: 1 };
       function touchDist(t0, t1){
         var dx = t0.clientX - t1.clientX, dy = t0.clientY - t1.clientY;
         return Math.sqrt(dx*dx + dy*dy);

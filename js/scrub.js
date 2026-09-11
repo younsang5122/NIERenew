@@ -149,8 +149,12 @@
     loadNext();
   });
 
+  var resizeTimer;
   window.addEventListener('resize', function(){
-    resizeCanvas();
-    drawFrame(currentIndex);
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function(){
+      resizeCanvas();
+      drawFrame(currentIndex);
+    }, 100);
   });
 })();

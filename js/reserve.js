@@ -81,6 +81,20 @@
     itemInput = modal.querySelector('input[name="item"]');
     feedbackEl = modal.querySelector('.reserve-feedback');
 
+    var phoneInput = form.querySelector('input[name="phone"]');
+    if(phoneInput){
+      phoneInput.addEventListener('input', function(e){
+        var val = e.target.value.replace(/[^0-9]/g, '');
+        if(val.length > 11) val = val.slice(0, 11);
+        if(val.length > 7){
+          val = val.replace(/^(\d{3})(\d{4})(\d{4})$/, '$1-$2-$3');
+        } else if(val.length > 3){
+          val = val.replace(/^(\d{3})(\d{3,4})$/, '$1-$2');
+        }
+        e.target.value = val;
+      });
+    }
+
     modal.addEventListener('click', function(e){
       if(e.target.hasAttribute('data-close')) closeModal();
     });
@@ -113,20 +127,42 @@
       var entry = {
         type: fd.get('type') || '프로그램',
         item: fd.get('item') || titleEl.textContent,
-        name: fd.get('name'),
-        phone: fd.get('phone'),
+        name: (fd.get('name') || '').trim(),
+        phone: (fd.get('phone') || '').trim(),
         date: fd.get('date'),
-        people: fd.get('people'),
-        note: fd.get('note') || ''
+        people: parseInt(fd.get('people'), 10) || 1,
+        note: (fd.get('note') || '').trim()
       };
-      if(!entry.name || !entry.phone || !entry.date){
-        feedbackEl.textContent = '이름·연락처·날짜를 모두 입력해주세요.';
-        feedbackEl.classList.add('is-error');
+      if(!entry.name){
+        feedbackEl.textContent = '성함을 입력해주세요.';
+        feedbackEl.className = 'reserve-feedback is-error';
         return;
       }
+      var phoneRegex = /^01[016789]-\d{3,4}-\d{4}$/;
+      if(!phoneRegex.test(entry.phone)){
+        feedbackEl.textContent = '올바른 휴대폰 번호 형식을 입력해주세요. (예: 010-1234-5678)';
+        feedbackEl.className = 'reserve-feedback is-error';
+        return;
+      }
+      if(!entry.date){
+        feedbackEl.textContent = '희망 날짜를 선택해주세요.';
+        feedbackEl.className = 'reserve-feedback is-error';
+        return;
+      }
+      var todayStr = new Date().toISOString().split('T')[0];
+      if(entry.date < todayStr){
+        feedbackEl.textContent = '오늘 이전 날짜는 선택할 수 없습니다.';
+        feedbackEl.className = 'reserve-feedback is-error';
+        return;
+      }
+      if(entry.people < 1 || entry.people > 20){
+        feedbackEl.textContent = '예약 인원은 1명 이상 20명 이하이어야 합니다.';
+        feedbackEl.className = 'reserve-feedback is-error';
+        return;
+      }
+
       addReservation(entry);
-      feedbackEl.classList.remove('is-error');
-      feedbackEl.classList.add('is-success');
+      feedbackEl.className = 'reserve-feedback is-success';
       feedbackEl.textContent = '예약이 저장되었습니다! "생태 자료 > 내 예약" 에서 확인할 수 있어요.';
       form.querySelector('button[type="submit"]').disabled = true;
       setTimeout(function(){ closeModal(); }, 1400);
@@ -142,7 +178,14 @@
     feedbackEl.textContent = '';
     feedbackEl.className = 'reserve-feedback';
     form.reset();
-    form.querySelector('input[name="date"]').valueAsDate = null;
+
+    var dateInput = form.querySelector('input[name="date"]');
+    if(dateInput){
+      var today = new Date().toISOString().split('T')[0];
+      dateInput.min = today;
+      dateInput.value = today;
+    }
+
     form.querySelector('button[type="submit"]').disabled = false;
     modal.classList.add('is-open');
     modal.setAttribute('aria-hidden', 'false');
