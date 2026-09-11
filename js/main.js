@@ -33,4 +33,12 @@
 
   // 생태계 탭 전환(생태 탐험 지도 클릭·활성화)은 data.js 의 renderHome() 에서
   // 데이터 로드 이후 동적으로 생성된 탭 요소에 이벤트를 직접 바인딩해 처리합니다.
+
+  // href="#" 더미 링크 클릭 시 페이지 상단으로 튀는 현상 방지
+  // 실제 앵커(#section-id 형태의 id가 있는 요소)는 정상 작동하도록 예외 처리
+  document.addEventListener('click', function(e){
+    var a = e.target.closest('a[href="#"]');
+    if(!a) return;
+    e.preventDefault();
+  });
 })();

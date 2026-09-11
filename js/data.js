@@ -33,25 +33,54 @@
 
   var FALLBACK_DB = {
     species: [
-      { id:'otter', name:'수달', scientificName:'Lutra lutra', protectionLevel:'멸종위기 I급', category:'포유류', habitat:'강·하천', image:'assets/img/otter-rock.jpg', ecosystemId:'tropical', description:'유라시아 대륙 전역의 깨끗한 물가에 서식하는 족제비과의 포유류입니다.', exhibitionIds:['climate-ecosystem'], researchIds:['temperature-trend'], facts:{ '서식지':'강, 호수, 해안', '수명':'10~15년' } },
-      { id:'fox', name:'사막여우', scientificName:'Vulpes zerda', protectionLevel:'관심대상(LC)', category:'포유류', habitat:'건조한 사막', image:'assets/img/desert-fox.jpg', ecosystemId:'desert', description:'북아프리카 사막 지대에 서식하는 체구가 가장 작은 여우입니다.', exhibitionIds:['climate-ecosystem'], researchIds:[], facts:{ '특징':'체온 조절을 돕는 큰 귀', '수명':'10~14년' } },
-      { id:'penguin', name:'젠투펭귄', scientificName:'Pygoscelis papua', protectionLevel:'취약(VU)', category:'조류', habitat:'남극 연안', image:'assets/img/polar-penguin.jpg', ecosystemId:'polar', description:'남극 주변 해역 및 섬에 서식하며 가장 빠른 수중 헤엄 실력을 자랑합니다.', exhibitionIds:['climate-ecosystem'], researchIds:[], facts:{ '특징':'머리 위 흰 띠 모양', '수명':'15~20년' } }
+      { id:'otter', name:'수달', scientificName:'Lutra lutra', protectionLevel:'멸종위기 야생생물 I급', category:'포유류', habitat:'강과 하천', image:'assets/img/otter-rock.jpg', ecosystemId:'temperate', description:'유라시아 대륙 전역의 깨끗한 물가에 서식하는 족제비과의 포유류입니다.', exhibitionIds:['climate-ecosystem'], researchIds:['temperature-trend'], facts:{ '먹이':'육식성 (물고기, 개구리 등)', '수명':'10–15년', '무게':'5–14kg' } },
+      { id:'desert-fox', name:'사막여우', scientificName:'Vulpes zerda', protectionLevel:'CITES 부속서 II종', category:'포유류', habitat:'사하라 사막·건조지대', image:'assets/img/desert-fox.jpg', ecosystemId:'desert', description:'세계에서 가장 작은 여우 종으로, 몸집에 비해 유난히 큰 귀가 특징입니다.', exhibitionIds:[], researchIds:[], facts:{ '먹이':'잡식성', '수명':'10–12년', '무게':'1–1.5kg' } },
+      { id:'chinstrap-penguin', name:'턱끈펭귄', scientificName:'Pygoscelis antarcticus', protectionLevel:'관심대상종', category:'조류', habitat:'남극·아남극 섬', image:'assets/img/polar-penguin.jpg', ecosystemId:'polar', description:'흰 턱 아래로 이어지는 검은 줄무늬가 특징인 남극의 펭귄입니다.', exhibitionIds:[], researchIds:[], facts:{ '먹이':'크릴, 작은 물고기', '수명':'15–20년', '무게':'3–5kg' } },
+      { id:'baobab', name:'바오밥나무', scientificName:'Adansonia', protectionLevel:'관심대상종', category:'식물', habitat:'사막·사바나', image:'assets/img/baobab-savanna.jpg', ecosystemId:'desert', description:'아프리카 사바나에 자생하는 거대한 낙엽수로, 굵은 줄기에 물을 저장합니다.', exhibitionIds:[], researchIds:[], facts:{ '저장 수분':'최대 12만 리터', '수명':'최대 2,000년 이상' } },
+      { id:'tropical-tree', name:'에코리움 열대 수목', scientificName:'Ficus spp.', protectionLevel:'온실 보호종', category:'식물', habitat:'열대 우림', image:'assets/img/tree-glass-ceiling.jpg', ecosystemId:'tropical', description:'에코리움 열대관 유리 온실 안에서 자생하는 열대 수목 컬렉션입니다.', exhibitionIds:['climate-ecosystem'], researchIds:[], facts:{ '생육 환경':'고온다습 (25–30℃)', '전시 위치':'에코리움 열대관' } }
     ],
     ecosystems: [
-      { id:'tropical', name:'열대 기후관', description:'가장 다양한 생물종이 살아가는 덥고 습한 열대우림 생태계입니다.', image:'assets/img/tropical-hall-visitors.jpg', location:'에코리움 1층', speciesIds:['otter'], mapPosition:{x:32, y:45} },
-      { id:'desert', name:'사막 기후관', description:'건조하고 메마른 환경에 적응한 다육식물과 건조 동물들을 만납니다.', image:'assets/img/baobab-savanna.jpg', location:'에코리움 1층', speciesIds:['fox'], mapPosition:{x:60, y:38} },
-      { id:'polar', name:'극지 기후관', description:'얼음과 눈으로 덮인 극지방 생태계와 펭귄들의 삶을 살펴봅니다.', image:'assets/img/polar-penguin.jpg', location:'에코리움 2층', speciesIds:['penguin'], mapPosition:{x:80, y:65} }
+      { id:'tropical', name:'열대 생태계', description:'가장 다양한 생물종이 살아가는 덥고 습한 열대우림 생태계입니다.', image:'assets/img/tropical-hall-visitors.jpg', location:'에코리움 열대관', speciesIds:['tropical-tree'], mapPosition:{x:22, y:58} },
+      { id:'desert', name:'사막 생태계', description:'건조하고 메마른 환경에 적응한 다육식물과 건조 동물들을 만납니다.', image:'assets/img/baobab-savanna.jpg', location:'에코리움 사막관', speciesIds:['baobab','desert-fox'], mapPosition:{x:46, y:36} },
+      { id:'temperate', name:'온대 생태계', description:'제주 곶자왈, 수달사와 맹금류사 등 한반도의 사계절 뚜렷한 온대 생태계입니다.', image:'assets/img/otter-rock.jpg', location:'야외 전시 구역', speciesIds:['otter'], mapPosition:{x:68, y:60} },
+      { id:'polar', name:'극지 생태계', description:'얼음과 눈으로 덮인 극지방 생태계와 펭귄들의 삶을 살펴봅니다.', image:'assets/img/polar-penguin.jpg', location:'에코리움 극지관', speciesIds:['chinstrap-penguin'], mapPosition:{x:84, y:32} }
     ],
     exhibitions: [
-      { id:'climate-ecosystem', title:'기후대별 생태관 상설전시', period:'상설전시', hours:'09:30 ~ 17:30', price:'성인 5,000원', image:'assets/img/ecorium-dome-wide.jpg', description:'열대부터 극지까지 지구상의 4대 기후 생태계를 한자리에서 체험합니다.', recommendedRoute:['열대관','사막관','온대관','극지관'] }
+      { id:'climate-ecosystem', title:'기후변화와 생태계', period:'상설전시', hours:'10:00–17:00', price:'무료 (입장료 별도)', image:'assets/img/ecorium-dome-wide.jpg', description:'기후변화가 한반도 생태계에 미치는 영향을 다양한 시청각 자료로 체험합니다.', recommendedRoute:['방문자 센터','에코리움(열대/사막관)','하늘다람 놀이터','서문 출구'] },
+      { id:'insect-world', title:'곤충의 신비로운 세계', period:'특별전시', hours:'09:30–18:00', price:'무료 (입장료 별도)', image:'assets/img/insect-exhibit-kids.jpg', description:'희귀 곤충들을 만나고 그들의 독특한 생존 방식을 배우는 특별 기획전입니다.', recommendedRoute:['방문자 센터','어린이생태체험관','야외 곤충정원'] }
     ],
     education: [
-      { id:'microscope', title:'어린이 생태 탐구 교실', category:'체험교육', location:'생태교육관 2층', date:'매주 토요일 14:00', duration:'90분', target:'초등학생', image:'assets/img/edu-microscope-kids.jpg', description:'현미경을 직접 조작해 식물 세포와 작은 생물들을 관찰하는 체험 프로그램입니다.' }
+      { id:'forest-explorers', title:'숲 속 생태 탐험대', category:'숲 생태', location:'야외 생태 학습장', date:'매주 주말', duration:'120분', target:'어린이', image:'assets/img/forest-family-explore.jpg', description:'어린이 눈높이에 맞춘 숲 생태계 관찰 프로그램입니다.' },
+      { id:'family-botanist', title:'우리가족 식물학자', category:'식물', location:'온실 체험관', date:'상시 운영', duration:'90분', target:'가족', image:'assets/img/planting-hands.jpg', description:'가족이 함께 식물을 관찰하고 직접 화분에 심어보는 체험입니다.' }
     ],
     research: [
-      { id:'temperature-trend', title:'한반도 기온 변화 모니터링', type:'기후변화 보고서', description:'최근 50년간 한반도 평균 기온 이상 편차 데이터 및 온실가스 영향을 분석합니다.', image:'assets/img/species-data-tablet.jpg', data:[{year:1970,tempAnomaly:0.1},{year:1985,tempAnomaly:0.35},{year:2000,tempAnomaly:0.68},{year:2015,tempAnomaly:1.1},{year:2025,tempAnomaly:1.45}], ecosystemIds:['tropical'], speciesIds:['otter'] }
+      { id:'temperature-trend', title:'한반도 기온 변화 추이 (2000–2023)', type:'생태 데이터', description:'지난 20여 년간 한반도의 평균 기온 변화를 나타내는 데이터입니다.', image:'assets/img/species-data-tablet.jpg', data:[{year:2000,tempAnomaly:0.3},{year:2005,tempAnomaly:0.5},{year:2010,tempAnomaly:0.6},{year:2015,tempAnomaly:0.9},{year:2020,tempAnomaly:1.2},{year:2023,tempAnomaly:1.4}], ecosystemIds:['temperate'], speciesIds:['otter'] },
+      { id:'endangered-2023', title:'2023 멸종위기 야생생물 서식 실태 조사', type:'연구자료', description:'전국 주요 습지 및 산림 지역의 멸종위기종 서식 현황을 분석한 보고서입니다.', image:'', data:[], speciesIds:['otter'], ecosystemIds:['temperate'] },
+      { id:'climate-tropical-plants', title:'기후변화와 열대식물', type:'연구 보고서', description:'국립생태원 연구진이 발행한 최신 모니터링 보고서 전문입니다.', image:'assets/img/baobab-savanna.jpg', data:[], speciesIds:['baobab'], ecosystemIds:['desert','tropical'] },
+      { id:'otter-survey-2024', title:'2024 수달 서식 실태 조사', type:'현장 데이터', description:'수달의 최신 행동 패턴 및 유전적 다양성을 현장 조사로 기록한 연구 자료입니다.', image:'assets/img/species-data-tablet.jpg', data:[], speciesIds:['otter'], ecosystemIds:['temperate'] }
     ]
   };
+
+  // 로컬(file://) 환경에서 fetch 실패 시 보여주는 토스트 알림 (대형 붉은 배너 대신)
+  function showFallbackToast(){
+    var toast = document.createElement('div');
+    toast.style.cssText = [
+      'position:fixed','bottom:24px','left:50%','transform:translateX(-50%)',
+      'background:rgba(21,33,26,0.92)','color:#d7e2cf','padding:11px 22px',
+      'border-radius:8px','font-size:13px','z-index:9999',
+      'box-shadow:0 8px 24px rgba(0,0,0,.3)','pointer-events:none',
+      'opacity:0','transition:opacity .4s ease','white-space:nowrap'
+    ].join(';');
+    toast.innerHTML = '📦 <strong>로컬 데모 데이터</strong>로 작동 중입니다. 로컬 서버(<code>npx serve</code>)에서 전체 기능을 이용할 수 있습니다.';
+    document.body.appendChild(toast);
+    requestAnimationFrame(function(){
+      toast.style.opacity = '1';
+      setTimeout(function(){
+        toast.style.opacity = '0';
+        setTimeout(function(){ toast.remove(); }, 450);
+      }, 4500);
+    });
+  }
 
   function loadAll(){
     return Promise.all([
@@ -71,6 +100,7 @@
       DB.exhibitions = FALLBACK_DB.exhibitions;
       DB.education = FALLBACK_DB.education;
       DB.research = FALLBACK_DB.research;
+      showFallbackToast();
       return DB;
     });
   }
@@ -147,6 +177,22 @@
       paint(btn.getAttribute('data-eco-tab'));
       setupMapPins();
     });
+
+    // WAI-ARIA 키보드 내비게이션: 화살표 키로 탭 이동
+    tabsEl.addEventListener('keydown', function(e){
+      var tabs = Array.prototype.slice.call(tabsEl.querySelectorAll('.eco-tab'));
+      var idx = tabs.indexOf(document.activeElement);
+      if(idx === -1) return;
+      var next = idx;
+      if(e.key === 'ArrowRight' || e.key === 'ArrowDown') next = (idx + 1) % tabs.length;
+      else if(e.key === 'ArrowLeft' || e.key === 'ArrowUp') next = (idx - 1 + tabs.length) % tabs.length;
+      else if(e.key === 'Home') next = 0;
+      else if(e.key === 'End') next = tabs.length - 1;
+      else return;
+      e.preventDefault();
+      tabs[next].focus();
+      tabs[next].click();
+    });
     var reqEco = new URLSearchParams(location.search).get('eco');
     var initialEco = byId(DB.ecosystems, reqEco) ? reqEco : DB.ecosystems[0].id;
     tabsEl.querySelectorAll('.eco-tab').forEach(function(t){
@@ -159,7 +205,7 @@
     // 연계 프로그램 및 연구 (동적)
     var linkEl = document.getElementById('linked-programs');
     if(linkEl){
-      var picks = [DB.exhibitions[0], DB.education[0], DB.research[3]].filter(Boolean);
+      var picks = [DB.exhibitions[0], DB.education[0], DB.research[DB.research.length - 1]].filter(Boolean);
       linkEl.innerHTML = picks.map(function(item){
         var isExh = !!item.title && !!item.period;
         var isEdu = !!item.title && !!item.target;
@@ -187,7 +233,9 @@
     pinLayer.innerHTML = DB.ecosystems.map(function(eco){
       return '<button type="button" class="map-pin" data-eco-id="' + esc(eco.id) + '" ' +
         'style="left:' + eco.mapPosition.x + '%; top:' + eco.mapPosition.y + '%;" ' +
-        'title="' + esc(eco.name) + '" aria-label="' + esc(eco.name) + ' 보기"></button>';
+        'aria-label="' + esc(eco.name) + ' 보기">' +
+        '<span class="map-pin-label">' + esc(eco.name) + '<\/span>' +
+        '<\/button>';
     }).join('');
     pinLayer.querySelectorAll('.map-pin').forEach(function(pin){
       pin.addEventListener('click', function(){
@@ -288,13 +336,15 @@
       var eco = ecoFilter ? ecoFilter.value : '';
       var cat = catFilter ? catFilter.value : '';
       var lvl = levelFilter ? levelFilter.value : '';
-      var q = reqQ.toLowerCase();
+      // 다중 키워드: 공백으로 분리한 토큰 중 하나라도 매칭되면 결과 포함
+      var tokens = reqQ.toLowerCase().split(/\s+/).filter(Boolean);
       var list = DB.species.filter(function(s){
-        var matchesQ = !q ||
-          s.name.toLowerCase().indexOf(q) !== -1 ||
-          s.scientificName.toLowerCase().indexOf(q) !== -1 ||
-          s.habitat.toLowerCase().indexOf(q) !== -1 ||
-          s.category.toLowerCase().indexOf(q) !== -1;
+        var matchesQ = !tokens.length || tokens.some(function(t){
+          return s.name.toLowerCase().indexOf(t) !== -1 ||
+            s.scientificName.toLowerCase().indexOf(t) !== -1 ||
+            s.habitat.toLowerCase().indexOf(t) !== -1 ||
+            s.category.toLowerCase().indexOf(t) !== -1;
+        });
         return matchesQ && (!eco || s.ecosystemId === eco) && (!cat || s.category === cat) && (!lvl || s.protectionLevel === lvl);
       });
       if(noticeEl){
@@ -540,20 +590,24 @@
 
   function setupSearch(){
     var idx = buildSearchIndex();
+    // 검색어를 공백으로 분리해 모든 키워드가 포함된 항목을 반환하는 헬퍼
+    function multiMatch(item, q){
+      var tokens = q.trim().toLowerCase().split(/\s+/).filter(Boolean);
+      if(!tokens.length) return false;
+      var haystack = (item.title + ' ' + (item.sub || '')).toLowerCase();
+      return tokens.every(function(t){ return haystack.indexOf(t) !== -1; });
+    }
     document.querySelectorAll('input[type="search"]').forEach(function(input){
       attachAutocomplete(input, idx);
       var form = input.closest('form');
       if(form){
         form.addEventListener('submit', function(e){
           e.preventDefault();
-          var q = input.value.trim().toLowerCase();
-          if(!q) return;
-          var match = idx.find(function(item){
-            return item.title.toLowerCase().indexOf(q) !== -1 || (item.sub||'').toLowerCase().indexOf(q) !== -1;
-          });
-          // 정확히 일치하는 항목이 없어도 검색이 "아무 반응 없음"으로 끝나지 않도록,
-          // 생물 도감 페이지로 이동해 검색어 기준으로 필터링된 결과(또는 결과 없음 안내)를 보여줍니다.
-          window.location.href = match ? match.href : 'species.html?q=' + encodeURIComponent(input.value.trim());
+          var raw = input.value.trim();
+          if(!raw) return;
+          var match = idx.find(function(item){ return multiMatch(item, raw); });
+          // 검색어가 인덱스에 있으면 해당 페이지로, 없으면 생물 도감 필터 결과로 이동
+          window.location.href = match ? match.href : 'species.html?q=' + encodeURIComponent(raw);
         });
       }
     });
@@ -639,7 +693,9 @@
       img.style.willChange = 'transform';
       img.style.transition = 'transform .05s linear';
       img.style.userSelect = 'none';
-      img.style.touchAction = 'none';
+      // 모바일: scale=1(기본)일 때는 터치 스크롤을 방해하지 않도록 pan-x/pan-y 허용
+      // scale > 1(확대됨)일 때만 none으로 전환하여 드래그 이동을 활성화
+      img.style.touchAction = 'pan-x pan-y';
       apply();
 
       // 마우스/터치 드래그 이동 (Pan)
@@ -664,6 +720,15 @@
       mapEl.addEventListener('pointerdown', onPointerDown);
       window.addEventListener('pointermove', onPointerMove);
       window.addEventListener('pointerup', onPointerUp);
+      // scale 변경 시 touchAction 동기화 (확대 상태에서만 드래그 이동 활성화)
+      function syncTouchAction(){
+        img.style.touchAction = state.scale > MIN_SCALE ? 'none' : 'pan-x pan-y';
+      }
+      var _origSetScale = setScale;
+      setScale = function(next){
+        _origSetScale(next);
+        syncTouchAction();
+      };
 
       // 모바일 핀치 줌 (두 손가락)
       var pinch = { active: false, startDist: 0, startScale: 1 };
@@ -713,20 +778,8 @@
       setupSearch();
       setupInteractiveMap();
     }).catch(function(err){
-      console.error('데이터 로드 실패:', err);
-      var notice = document.createElement('div');
-      notice.style.cssText = 'background:#c1443a;color:#fff;padding:14px 20px;font-size:14px;text-align:center;font-weight:500;z-index:9999;position:relative;line-height:1.5;';
-      notice.innerHTML = '⚠️ <strong>데이터 로드 실패</strong>: 데이터를 불러오지 못했습니다. <code>file://</code> 보안 제약 때문일 수 있으니 로컬 웹 서버(예: <code>npx serve</code> 또는 Python <code>python -m http.server</code>) 환경에서 실행해주세요.';
-      document.body.prepend(notice);
-
-      var mainContent = document.getElementById('main') || document.body;
-      var panel = document.getElementById('eco-panel') || document.getElementById('species-list') || document.getElementById('exhibits-list');
-      if(panel){
-        panel.innerHTML = '<div style="padding:40px 20px; text-align:center; background:rgba(193,68,58,0.08); border:1px solid rgba(193,68,58,0.3); border-radius:12px; margin:20px 0;">' +
-          '<h3 style="color:#c1443a; margin:0 0 10px 0;">콘텐츠를 불러올 수 없습니다</h3>' +
-          '<p style="color:var(--ink-soft); margin:0;">데이터 통신 오류가 발생했습니다. 개발자 도구 콘솔(F12) 또는 로컬 서버 설정을 확인해주세요.</p>' +
-          '</div>';
-      }
+      // 이 catch는 FALLBACK_DB 전환 이후에도 예기치 못한 렌더링 오류가 발생했을 때만 실행됩니다.
+      console.error('데이터 렌더링 실패:', err);
     });
   });
 })();

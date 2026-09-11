@@ -83,7 +83,7 @@
     "id": "chinstrap-penguin",
     "name": "턱끈펭귄",
     "scientificName": "Pygoscelis antarcticus",
-    "image": "https://www.nie.re.kr/resources/nie/images/sub/polar_img_8.png",
+    "image": "assets/img/polar-penguin.jpg",
     "model3D": "",
     "category": "조류",
     "habitat": "남극·아남극 섬",

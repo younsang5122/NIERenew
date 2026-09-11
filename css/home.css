@@ -130,8 +130,23 @@
   pointer-events:auto; transform:translate(-50%,-50%);
 }
 .map-pin:hover{background:var(--amber-deep); transform:translate(-50%,-50%) scale(1.15);}
+.map-pin:focus-visible{outline:2px solid var(--amber); outline-offset:3px; transform:translate(-50%,-50%) scale(1.15);}
 .map-pin::after{content:""; position:absolute; inset:-8px; border-radius:50%; border:1px solid rgba(192,140,62,.5); animation:pulse 2.4s ease-out infinite; pointer-events:none;}
 @keyframes pulse{0%{transform:scale(.5); opacity:.9;} 100%{transform:scale(1.9); opacity:0;}}
+
+/* 핀 호버 시 나타나는 생태계 이름 툴팁 레이블 */
+.map-pin-label{
+  position:absolute; bottom:calc(100% + 10px); left:50%; transform:translateX(-50%);
+  background:rgba(16,29,22,.88); color:#fff; font-size:11.5px; font-weight:600;
+  padding:4px 10px; border-radius:4px; white-space:nowrap;
+  pointer-events:none; opacity:0; transition:opacity .18s ease;
+}
+.map-pin-label::after{
+  content:""; position:absolute; top:100%; left:50%; transform:translateX(-50%);
+  border:5px solid transparent; border-top-color:rgba(16,29,22,.88);
+}
+.map-pin:hover .map-pin-label,
+.map-pin:focus-visible .map-pin-label{ opacity:1; }
 
 /* connected-content strip */
 .link-flow{display:flex; align-items:center; flex-wrap:wrap; gap:6px; font-family:var(--font-mono); font-size:12px; color:var(--forest-600); margin-top:6px;}
