@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>전시·관람 | 국립생태원</title>
-<meta name="description" content="전시관·시설 안내, 운영시간·이용요금, 추천 관람동선과 예약 정보.">
+<title>전시·관람 | 국립생태원 (NIE) — 시설 안내 및 맞춤 동선</title>
+<meta name="description" content="전시관 시설 안내, 운영시간 및 입장요금, 3D 전시 프로그램과 맞춤 관람 동선 플래너.">
 <link rel="icon" href="data:,">
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/home.css">
@@ -31,7 +31,7 @@
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         <input type="search" name="q" placeholder="생물·전시·프로그램 검색" aria-label="통합 검색">
       </form>
-      <a href="reservations.html" class="reserve-nav-link btn btn-ghost" style="padding:9px 14px; font-size:13px;">
+      <a href="reservations.html" class="reserve-nav-link btn btn-ghost" style="padding:9px 16px; font-size:13.5px;">
         내 예약
         <span class="reserve-badge" data-reserve-badge>0</span>
       </a>
@@ -44,17 +44,18 @@
 
   <section class="search-hero">
     <div class="wrap">
-      <span class="eyebrow">전시·관람 / 예약</span>
-      <h1>시설 지도로<br>전시관과 관람동선을 미리 계획하세요</h1>
-      <p>운영시간·이용요금·편의시설을 한눈에 확인하고, 예약 페이지로 바로 연결됩니다.</p>
+      <span class="eyebrow">Exhibition & Reservations</span>
+      <h1>시설 지도로 전시관과<br>관람 동선을 미리 계획해보세요</h1>
+      <p>운영시간·이용요금·편의시설을 확인하고, 온라인 예약과 맞춤 동선 서비스를 바로 이용할 수 있습니다.</p>
     </div>
   </section>
 
+  <!-- 현재 전시 중인 프로그램 -->
   <section class="section" id="reserve">
     <div class="wrap">
       <div class="section-head" data-reveal>
-        <span class="eyebrow">현재 전시 중인 프로그램</span>
-        <h2>자연과 생태계를 깊이 이해할 수 있는<br>특별한 전시를 만나보세요</h2>
+        <span class="eyebrow">현재 상설 및 특별 전시</span>
+        <h2>자연과 생태계를 깊이 이해하는<br>특별한 전시 프로그램</h2>
       </div>
 
       <div class="grid-3" id="exhibition-grid">
@@ -63,35 +64,57 @@
     </div>
   </section>
 
+  <!-- 관람 정보 및 맞춤 동선 계산기 -->
   <section class="section section-alt" id="route">
     <div class="wrap">
       <div class="section-head" data-reveal>
-        <span class="eyebrow">관람 정보 및 추천 동선</span>
-        <h2>운영시간·요금부터 가족 동선까지</h2>
+        <span class="eyebrow">관람 안내 & 맞춤 동선 플래너</span>
+        <h2>운영시간·요금부터 동선 계산까지</h2>
       </div>
 
       <div class="grid-2">
         <div class="panel" data-reveal>
           <h3>
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-            관람 시간 및 요금
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            관람 시간 및 입장 요금
           </h3>
-          <div class="hours-row"><span>춘추계 (3월~10월)</span><b>09:30–18:00</b></div>
-          <div class="hours-row"><span>동계 (11월~2월)</span><b>09:30–17:00</b></div>
-          <p class="notice">* 매주 월요일 휴관</p>
+          <div class="hours-row"><span>하절기 (3월~10월)</span><b>09:30–18:00</b></div>
+          <div class="hours-row"><span>동절기 (11월~2월)</span><b>09:30–17:00</b></div>
+          <p class="notice">* 매주 월요일 휴관 (공휴일 제외)</p>
           <div class="price-list">
             <div class="hours-row"><span>대인 (만 19세 이상)</span><b>5,000원</b></div>
             <div class="hours-row"><span>청소년 (만 13~18세)</span><b>3,000원</b></div>
             <div class="hours-row"><span>소인 (만 5~12세)</span><b>2,000원</b></div>
+            <div class="hours-row"><span>만 65세 이상 / 만 4세 이하</span><b>무료 입장</b></div>
           </div>
-          <a href="#" class="btn btn-ghost" style="margin-top:18px; width:100%;">상세 요금 안내</a>
+          <button type="button" class="btn btn-primary btn-reserve" data-reserve-item="국립생태원 관람 입장권" style="margin-top:20px; width:100%;">온라인 관람 티켓 예약하기 →</button>
         </div>
 
-        <div class="route-panel" data-reveal>
-          <span class="route-badge">가족형 추천</span>
-          <h3>반나절 가족 탐험 코스</h3>
-          <p>아이들과 함께 지루함 없이 핵심 시설을 둘러볼 수 있는 최적의 동선입니다. 에코리움 주요 관과 야외 놀이터를 포함합니다.</p>
-          <div class="route-steps" id="route-steps"></div>
+        <div id="route-calculator" class="route-calculator-panel" data-reveal>
+          <div class="route-calc-header">
+            <span class="route-badge">인터랙티브 플래너</span>
+            <h3 style="font-size:20px; font-weight:800; margin-top:6px;">맞춤 관람동선 계산기</h3>
+          </div>
+          <div class="route-calc-controls">
+            <div class="route-calc-group">
+              <label for="ex-calc-target">동반자 유형</label>
+              <select id="ex-calc-target" name="calc-target">
+                <option value="family">가족 (어린이 동반)</option>
+                <option value="couple">연인 / 친구</option>
+                <option value="solo">나홀로 탐험가</option>
+                <option value="senior">노약자 / 편의시설 우선</option>
+              </select>
+            </div>
+            <div class="route-calc-group">
+              <label for="ex-calc-time">희망 소요 시간</label>
+              <select id="ex-calc-time" name="calc-time">
+                <option value="60">1시간 (핵심 엑기스)</option>
+                <option value="120" selected>2시간 (여유로운 알짜 코스)</option>
+                <option value="240">반나절 (전체 완벽 탐험)</option>
+              </select>
+            </div>
+          </div>
+          <div class="route-calc-output"></div>
         </div>
       </div>
     </div>
@@ -100,11 +123,11 @@
   <section class="section">
     <div class="wrap">
       <div class="section-head" data-reveal>
-        <span class="eyebrow">시설 지도</span>
-        <h2>편의시설과 전시관을 확인하세요</h2>
+        <span class="eyebrow">전시 파크 조감도</span>
+        <h2>에코리움 시설 및 서식지 가이드</h2>
       </div>
       <div class="map-explore" data-reveal>
-        <img src="assets/img/ecorium-dome-wide.jpg" alt="국립생태원 전체 시설 안내 지도">
+        <img src="assets/img/ecorium-dome-wide.jpg" alt="국립생태원 전체 시설 안내 조감도">
         <div id="map-pins" class="map-pins"></div>
       </div>
     </div>
@@ -124,11 +147,12 @@
       <address>충남 서천군 마서면 금강로 1210 국립생태원<br>대표전화: 041-950-5300</address>
       <img class="wa-mark" src="assets/img/wa-mark.png" alt="웹 접근성 우수사이트 인증마크">
     </div>
-    <p style="margin-top:18px; font-size:12px; color:rgba(215,226,207,.5);">© National Institute of Ecology. All Rights Reserved.</p>
+    <p style="margin-top:20px; font-size:12.5px; color:rgba(220,232,213,0.5);">© National Institute of Ecology. All Rights Reserved.</p>
   </div>
 </footer>
 
 <script src="js/main.js"></script>
+<script src="js/tilt.js"></script>
 <script src="js/data.js"></script>
 <script src="js/reserve.js"></script>
 </body>

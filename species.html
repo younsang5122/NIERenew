@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>생물 발견 | 국립생태원</title>
-<meta name="description" content="분류·서식지·보호등급 정보로 만나는 국립생태원의 생물 도감.">
+<title>생물 발견 | 국립생태원 (NIE) — 생태 도감 & 상세 탐색</title>
+<meta name="description" content="분류·서식지·IUCN 보호등급 정보로 찾아보는 국립생태원의 인터랙티브 생물 도감.">
 <link rel="icon" href="data:,">
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/home.css">
@@ -31,7 +31,7 @@
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         <input type="search" name="q" placeholder="생물·전시·프로그램 검색" aria-label="통합 검색">
       </form>
-      <a href="reservations.html" class="reserve-nav-link btn btn-ghost" style="padding:9px 14px; font-size:13px;">
+      <a href="reservations.html" class="reserve-nav-link btn btn-ghost" style="padding:9px 16px; font-size:13.5px;">
         내 예약
         <span class="reserve-badge" data-reserve-badge>0</span>
       </a>
@@ -44,9 +44,9 @@
 
   <section class="search-hero">
     <div class="wrap">
-      <span class="eyebrow" id="sp-eyebrow">생물 발견</span>
+      <span class="eyebrow" id="sp-eyebrow">Interactive Species Encyclopedia</span>
       <h1 id="sp-title">생물 정보를 불러오는 중…</h1>
-      <p id="sp-sub-desc" style="color:var(--sage-300); margin-top:8px; font-size:16px; font-style:italic; font-family:serif;"></p>
+      <p id="sp-sub-desc" style="color:var(--sage-300); margin-top:8px; font-size:17px; font-family:var(--font-serif); font-style:italic;"></p>
     </div>
   </section>
 
@@ -60,32 +60,29 @@
           <div id="sp-desc"></div>
           <div class="link-flow" id="sp-flow" style="margin-top:20px;"></div>
 
-          <!-- 선택식 노출 이미지/미디어 박스 -->
-          <div class="data-media" id="sp-media-container" style="margin-top:32px; border-radius:12px; overflow:hidden; aspect-ratio:16/9; background:var(--forest-900);">
+          <div class="data-media" id="sp-media-container" style="margin-top:32px; border-radius:12px; overflow:hidden; aspect-ratio:16/9; background:var(--forest-950);">
             <img id="sp-hero-img" src="data:," alt="" style="width:100%; height:100%; object-fit:cover;">
           </div>
         </div>
         <div class="fact-panel" data-reveal style="align-self:start;">
-          <h3>주요 정보</h3>
+          <h3>주요 정보 팩트시트</h3>
           <div id="sp-facts"></div>
-          <a href="index.html#ecosystems" id="sp-cta" class="btn btn-ghost" style="margin-top:18px; width:100%;">생태계 탐험하기 →</a>
+          <a href="index.html#ecosystems" id="sp-cta" class="btn btn-ghost" style="margin-top:20px; width:100%;">생태계 탐험하기 →</a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 생물 도감 그리드 -->
+  <!-- 생물 도감 그리드 & 필터 -->
   <section class="section">
     <div class="wrap">
       <div class="section-head" data-reveal>
-        <span class="eyebrow">생물 도감</span>
+        <span class="eyebrow">생물 도감 서치</span>
         <h2>기후대별 대표 생물</h2>
-        <p>카드를 클릭하면 분류·서식지·보호등급 정보를 확인할 수 있어요.</p>
+        <p>카드를 클릭하여 생물의 생태 특성, 분류, 서식지 및 보호등급 정보를 탐색해 보세요.</p>
       </div>
 
-      <p id="species-search-notice" hidden style="font-size:13.5px; color:var(--ink-soft); margin:-14px 0 20px;"></p>
-
-      <div class="filter-row">
+      <div class="filter-row" data-reveal>
         <div class="filter-select">
           <span>기후대</span>
           <select id="filter-eco"><option>전체</option></select>
@@ -120,7 +117,7 @@
       <address>충남 서천군 마서면 금강로 1210 국립생태원<br>대표전화: 041-950-5300</address>
       <img class="wa-mark" src="assets/img/wa-mark.png" alt="웹 접근성 우수사이트 인증마크">
     </div>
-    <p style="margin-top:18px; font-size:12px; color:rgba(215,226,207,.5);">© National Institute of Ecology. All Rights Reserved.</p>
+    <p style="margin-top:20px; font-size:12.5px; color:rgba(220,232,213,0.5);">© National Institute of Ecology. All Rights Reserved.</p>
   </div>
 </footer>
 

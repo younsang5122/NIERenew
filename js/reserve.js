@@ -1,7 +1,5 @@
 // ============================================================
-// 예약·신청 시스템 (localStorage 기반)
-// "신청하기" / "예약하기" 버튼을 실제로 동작하게 만듭니다.
-// 저장된 예약은 reservations.html 에서 확인·취소할 수 있습니다.
+// 🌿 예약·신청 시스템 (localStorage CRUD + 실시간 뱃지/토스트)
 // ============================================================
 (function(){
   var STORAGE_KEY = 'nie_reservations';
@@ -9,25 +7,46 @@
   function loadReservations(){
     try{
       var raw = localStorage.getItem(STORAGE_KEY);
-      return raw ? JSON.parse(raw) : [];
+      if(!raw){
+        // 데모 체험을 위해 기본 데모 예약건 1건 초기화
+        var demo = [{
+          id: 'r_demo_01',
+          type: '전시',
+          item: '기후변화와 생태계 상설전시',
+          name: '조윤상',
+          phone: '010-9500-5300',
+          date: new Date(Date.now() + 86400000 * 3).toISOString().slice(0, 10),
+          people: 2,
+          note: '주차 공간 및 유모차 동선 문의',
+          createdAt: new Date().toISOString()
+        }];
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(demo));
+        return demo;
+      }
+      return JSON.parse(raw);
     }catch(e){ return []; }
   }
+
   function saveReservations(list){
     try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(list)); }catch(e){}
   }
+
   function addReservation(entry){
     var list = loadReservations();
-    entry.id = 'r_' + Date.now() + '_' + Math.random().toString(36).slice(2,7);
+    entry.id = 'r_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7);
     entry.createdAt = new Date().toISOString();
     list.unshift(entry);
     saveReservations(list);
     updateBadge();
+    showToast('✅ ' + entry.item + ' 예약이 완료되었습니다!');
     return entry;
   }
+
   function removeReservation(id){
     var list = loadReservations().filter(function(r){ return r.id !== id; });
     saveReservations(list);
     updateBadge();
+    showToast('🗑️ 예약이 취소되었습니다.');
     return list;
   }
 
@@ -39,11 +58,32 @@
     });
   }
 
+  function showToast(msg){
+    var toast = document.createElement('div');
+    toast.style.cssText = [
+      'position:fixed', 'bottom:28px', 'right:28px',
+      'background:var(--forest-900)', 'color:#fff', 'padding:14px 24px',
+      'border-radius:var(--radius-sm)', 'font-size:14px', 'font-weight:700',
+      'box-shadow:var(--shadow-lg)', 'z-index:9999', 'border:1px solid var(--amber)',
+      'opacity:0', 'transform:translateY(10px)', 'transition:all 0.3s ease'
+    ].join(';');
+    toast.textContent = msg;
+    document.body.appendChild(toast);
+    requestAnimationFrame(function(){
+      toast.style.opacity = '1';
+      toast.style.transform = 'none';
+      setTimeout(function(){
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(10px)';
+        setTimeout(function(){ toast.remove(); }, 350);
+      }, 3500);
+    });
+  }
+
   // ---------------------------------------------------------
-  // 모달 UI (한 번만 생성해 재사용)
+  // 예약 모달 UI
   // ---------------------------------------------------------
   var modal, form, titleEl, typeInput, itemInput, feedbackEl;
-  var lastFocusedElement = null;
 
   function buildModal(){
     if(modal) return;
@@ -54,18 +94,19 @@
       '<div class="reserve-modal-backdrop" data-close></div>' +
       '<div class="reserve-modal-panel" role="dialog" aria-modal="true" aria-labelledby="reserve-modal-title">' +
         '<button type="button" class="reserve-modal-close" data-close aria-label="닫기">&times;</button>' +
-        '<span class="eyebrow">예약·신청</span>' +
+        '<span class="eyebrow">국립생태원 온라인 예약</span>' +
         '<h3 id="reserve-modal-title" class="rm-title">프로그램 예약</h3>' +
         '<form class="reserve-form" novalidate>' +
           '<input type="hidden" name="type">' +
           '<input type="hidden" name="item">' +
+          '<label>예약 대상<input type="text" name="displayItem" readonly style="background:var(--paper-dim); font-weight:700;"></label>' +
           '<label>이름<input type="text" name="name" required placeholder="홍길동" autocomplete="name"></label>' +
           '<label>연락처<input type="tel" name="phone" required placeholder="010-0000-0000" autocomplete="tel"></label>' +
           '<div class="rm-row">' +
             '<label>희망 날짜<input type="date" name="date" required></label>' +
-            '<label>인원<input type="number" name="people" min="1" max="20" value="2" required></label>' +
+            '<label>인원 (명)<input type="number" name="people" min="1" max="20" value="2" required></label>' +
           '</div>' +
-          '<label>요청 사항 (선택)<textarea name="note" rows="2" placeholder="유모차 대여, 알레르기 등 참고할 내용을 남겨주세요"></textarea></label>' +
+          '<label>요청 사항 (선택)<textarea name="note" rows="2" placeholder="유모차 대여, 휠체어 전용석 등 참고 요청사항"></textarea></label>' +
           '<p class="reserve-feedback" role="status" aria-live="polite"></p>' +
           '<div class="rm-actions">' +
             '<button type="button" class="btn btn-ghost" data-close>취소</button>' +
@@ -81,201 +122,135 @@
     itemInput = modal.querySelector('input[name="item"]');
     feedbackEl = modal.querySelector('.reserve-feedback');
 
-    var phoneInput = form.querySelector('input[name="phone"]');
-    if(phoneInput){
-      phoneInput.addEventListener('input', function(e){
-        var val = e.target.value.replace(/[^0-9]/g, '');
-        if(val.length > 11) val = val.slice(0, 11);
-        if(val.length > 7){
-          val = val.replace(/^(\d{3})(\d{4})(\d{4})$/, '$1-$2-$3');
-        } else if(val.length > 3){
-          val = val.replace(/^(\d{3})(\d{3,4})$/, '$1-$2');
-        }
-        e.target.value = val;
-      });
+    var dateInput = form.querySelector('input[name="date"]');
+    if(dateInput){
+      var tomorrow = new Date(Date.now() + 86400000).toISOString().slice(0, 10);
+      dateInput.value = tomorrow;
+      dateInput.min = tomorrow;
     }
+
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      feedbackEl.textContent = '';
+      feedbackEl.className = 'reserve-feedback';
+
+      var name = form.name.value.trim();
+      var phone = form.phone.value.trim();
+      var date = form.date.value;
+      var people = parseInt(form.people.value, 10) || 1;
+
+      if(!name){
+        feedbackEl.textContent = '이름을 입력해주세요.';
+        feedbackEl.classList.add('is-error');
+        form.name.focus();
+        return;
+      }
+      if(!phone || phone.length < 9){
+        feedbackEl.textContent = '올바른 연락처를 입력해주세요.';
+        feedbackEl.classList.add('is-error');
+        form.phone.focus();
+        return;
+      }
+
+      addReservation({
+        type: typeInput.value || '일반예약',
+        item: itemInput.value || '국립생태원 관람',
+        name: name,
+        phone: phone,
+        date: date,
+        people: people,
+        note: form.note.value.trim()
+      });
+
+      closeModal();
+      if(window.location.pathname.includes('reservations.html')){
+        renderReservationsPage();
+      }
+    });
 
     modal.addEventListener('click', function(e){
       if(e.target.hasAttribute('data-close')) closeModal();
     });
-
-    // 접근성(a11y): 모달 키보드 포커스 트랩(Focus Trap) 및 Esc 닫기
-    modal.addEventListener('keydown', function(e){
-      if(e.key === 'Escape'){
-        closeModal();
-        return;
-      }
-      if(e.key === 'Tab'){
-        var focusables = modal.querySelectorAll('button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])');
-        if(!focusables.length) return;
-        var first = focusables[0];
-        var last = focusables[focusables.length - 1];
-
-        if(e.shiftKey && document.activeElement === first){
-          last.focus();
-          e.preventDefault();
-        } else if(!e.shiftKey && document.activeElement === last){
-          first.focus();
-          e.preventDefault();
-        }
-      }
-    });
-
-    form.addEventListener('submit', function(e){
-      e.preventDefault();
-      var fd = new FormData(form);
-      var entry = {
-        type: fd.get('type') || '프로그램',
-        item: fd.get('item') || titleEl.textContent,
-        name: (fd.get('name') || '').trim(),
-        phone: (fd.get('phone') || '').trim(),
-        date: fd.get('date'),
-        people: parseInt(fd.get('people'), 10) || 1,
-        note: (fd.get('note') || '').trim()
-      };
-      if(!entry.name){
-        feedbackEl.textContent = '성함을 입력해주세요.';
-        feedbackEl.className = 'reserve-feedback is-error';
-        return;
-      }
-      var phoneRegex = /^01[016789]-\d{3,4}-\d{4}$/;
-      if(!phoneRegex.test(entry.phone)){
-        feedbackEl.textContent = '올바른 휴대폰 번호 형식을 입력해주세요. (예: 010-1234-5678)';
-        feedbackEl.className = 'reserve-feedback is-error';
-        return;
-      }
-      if(!entry.date){
-        feedbackEl.textContent = '희망 날짜를 선택해주세요.';
-        feedbackEl.className = 'reserve-feedback is-error';
-        return;
-      }
-      var todayStr = new Date().toISOString().split('T')[0];
-      if(entry.date < todayStr){
-        feedbackEl.textContent = '오늘 이전 날짜는 선택할 수 없습니다.';
-        feedbackEl.className = 'reserve-feedback is-error';
-        return;
-      }
-      if(entry.people < 1 || entry.people > 20){
-        feedbackEl.textContent = '예약 인원은 1명 이상 20명 이하이어야 합니다.';
-        feedbackEl.className = 'reserve-feedback is-error';
-        return;
-      }
-
-      addReservation(entry);
-      feedbackEl.className = 'reserve-feedback is-success';
-      feedbackEl.textContent = '예약이 저장되었습니다! "생태 자료 > 내 예약" 에서 확인할 수 있어요.';
-      form.querySelector('button[type="submit"]').disabled = true;
-      setTimeout(function(){ closeModal(); }, 1400);
-    });
   }
 
-  function openModal(title, type, item){
+  function openModal(type, itemTitle){
     buildModal();
-    lastFocusedElement = document.activeElement;
-    titleEl.textContent = title || '프로그램 예약';
-    typeInput.value = type || '';
-    itemInput.value = item || title || '';
+    typeInput.value = type || '예약';
+    itemInput.value = itemTitle || '국립생태원 관람';
+    form.displayItem.value = itemTitle || '국립생태원 대표 관람';
+    titleEl.textContent = itemTitle + ' 예약';
     feedbackEl.textContent = '';
-    feedbackEl.className = 'reserve-feedback';
-    form.reset();
-
-    var dateInput = form.querySelector('input[name="date"]');
-    if(dateInput){
-      var today = new Date().toISOString().split('T')[0];
-      dateInput.min = today;
-      dateInput.value = today;
-    }
-
-    form.querySelector('button[type="submit"]').disabled = false;
     modal.classList.add('is-open');
     modal.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
-    setTimeout(function(){ form.querySelector('input[name="name"]').focus(); }, 50);
   }
+
   function closeModal(){
     if(!modal) return;
     modal.classList.remove('is-open');
     modal.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
-    if(lastFocusedElement && typeof lastFocusedElement.focus === 'function'){
-      lastFocusedElement.focus();
-      lastFocusedElement = null;
-    }
   }
 
   // ---------------------------------------------------------
-  // 이벤트 위임: "신청하기" / "예약하기" 문구의 버튼·링크를 자동 감지
-  // (데이터 기반으로 나중에 생성된 카드에도 동일하게 적용됨)
-  // ---------------------------------------------------------
-  function label(el){ return (el.textContent || '').trim(); }
-
-  document.addEventListener('click', function(e){
-    var el = e.target.closest('a.btn, button.btn');
-    if(!el) return;
-    if(el.hasAttribute('data-no-modal')) return; // 실제 페이지 이동이 목적인 링크는 모달을 띄우지 않음
-    var text = label(el);
-    var isReserveTrigger = /^(신청하기|예약하기)$/.test(text);
-    if(!isReserveTrigger) return;
-
-    e.preventDefault();
-    var card = el.closest('.card, .info-tile');
-    var itemTitle = card ? (card.querySelector('h3, h4') || {}).textContent : text;
-    var type = text === '신청하기' ? '교육 프로그램' : '전시 예약';
-    openModal(itemTitle ? itemTitle.trim() : text, type, itemTitle ? itemTitle.trim() : text);
-  });
-
-  // ---------------------------------------------------------
-  // reservations.html 전용: 저장된 예약 렌더링
+  // 내 예약 페이지 (`reservations.html`) 렌더링
   // ---------------------------------------------------------
   function renderReservationsPage(){
-    var listEl = document.getElementById('reservation-list');
-    var emptyEl = document.getElementById('reservation-empty');
-    if(!listEl) return;
+    var listContainer = document.getElementById('reservations-list');
+    if(!listContainer) return;
 
-    function paint(){
-      var list = loadReservations();
-      if(!list.length){
-        listEl.innerHTML = '';
-        if(emptyEl) emptyEl.hidden = false;
-        return;
-      }
-      if(emptyEl) emptyEl.hidden = true;
-      listEl.innerHTML = list.map(function(r){
-        var d = new Date(r.date);
-        var dateStr = isNaN(d) ? r.date : (d.getFullYear() + '.' + String(d.getMonth()+1).padStart(2,'0') + '.' + String(d.getDate()).padStart(2,'0'));
-        return (
-          '<div class="reservation-item panel">' +
-            '<div class="ri-main">' +
-              '<span class="data-tag" style="margin-bottom:8px; display:inline-block;">' + escHtml(r.type) + '</span>' +
-              '<h4>' + escHtml(r.item) + '</h4>' +
-              '<div class="meta-row"><span>👤 ' + escHtml(r.name) + '</span><span>📞 ' + escHtml(r.phone) + '</span>' +
-              '<span>🗓 ' + escHtml(dateStr) + '</span><span>👥 ' + escHtml(r.people) + '명</span></div>' +
-              (r.note ? '<p style="margin-top:8px; font-size:13px; color:var(--ink-soft);">' + escHtml(r.note) + '</p>' : '') +
-            '</div>' +
-            '<button type="button" class="btn btn-ghost ri-cancel" data-id="' + r.id + '" data-item="' + escHtml(r.item) + '">예약 취소</button>' +
-          '</div>'
-        );
-      }).join('');
-      listEl.querySelectorAll('.ri-cancel').forEach(function(btn){
-        btn.addEventListener('click', function(){
-          var item = btn.getAttribute('data-item') || '이 예약';
-          if(!window.confirm('"' + item + '" 예약을 취소하시겠어요? 이 작업은 되돌릴 수 없습니다.')) return;
-          removeReservation(btn.getAttribute('data-id'));
-          paint();
-        });
-      });
+    var list = loadReservations();
+    if(list.length === 0){
+      listContainer.innerHTML = '<div class="reservation-empty">' +
+        '<h3>예약 내역이 없습니다</h3>' +
+        '<p style="margin-top:6px;">전시 또는 교육 프로그램 페이지에서 원하는 항목을 예약해보세요.</p>' +
+        '<a href="exhibition.html" class="btn btn-primary" style="margin-top:18px;">전시 프로그램 둘러보기 →</a>' +
+      '</div>';
+      return;
     }
-    paint();
-  }
 
-  function escHtml(str){
-    return String(str == null ? '' : str).replace(/[&<>"']/g, function(c){
-      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    listContainer.innerHTML = list.map(function(r){
+      return '<div class="reservation-item">' +
+        '<div>' +
+          '<span class="eyebrow">' + esc(r.type) + '</span>' +
+          '<h4>' + esc(r.item) + '</h4>' +
+          '<div class="ri-meta">' +
+            '<span><b>예약자:</b> ' + esc(r.name) + ' (' + esc(r.phone) + ')</span>' +
+            '<span><b>방문일:</b> ' + esc(r.date) + '</span>' +
+            '<span><b>인원:</b> ' + esc(r.people) + '명</span>' +
+          '</div>' +
+          (r.note ? '<p style="margin-top:10px; font-size:13px; color:var(--ink-soft); background:var(--paper); padding:8px 12px; border-radius:4px;">요청사항: ' + esc(r.note) + '</p>' : '') +
+        '</div>' +
+        '<button type="button" class="btn btn-ghost ri-cancel" data-cancel-id="' + r.id + '">예약 취소</button>' +
+      '</div>';
+    }).join('');
+
+    listContainer.querySelectorAll('[data-cancel-id]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var id = btn.getAttribute('data-cancel-id');
+        if(confirm('정말 이 예약을 취소하시겠습니까?')){
+          removeReservation(id);
+          renderReservationsPage();
+        }
+      });
     });
   }
 
+  // ---------------------------------------------------------
+  // 이벤트 바인딩
+  // ---------------------------------------------------------
   document.addEventListener('DOMContentLoaded', function(){
     updateBadge();
-    if(document.body.getAttribute('data-page') === 'reservations') renderReservationsPage();
+    renderReservationsPage();
+
+    document.addEventListener('click', function(e){
+      var btn = e.target.closest('[data-reserve-item], .btn-reserve');
+      if(btn && !btn.hasAttribute('data-no-modal')){
+        e.preventDefault();
+        var item = btn.getAttribute('data-reserve-item') || btn.closest('.card, .info-tile, .research-item, section')?.querySelector('h2, h3, h4')?.textContent || '전시/교육 프로그램';
+        var type = btn.getAttribute('data-reserve-type') || '예약';
+        openModal(type, item);
+      }
+    });
   });
+
+  window.NIEReserve = { openModal: openModal, loadReservations: loadReservations };
 })();

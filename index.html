@@ -3,11 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>생태 탐험 | 국립생태원 — 자연을 탐험하고 생명의 이야기를 경험하세요</title>
-<meta name="description" content="국립생태원의 생물과 생태계를 3D 인터랙션과 드론 항공 촬영으로 탐험하는 인터랙티브 생태문화 플랫폼.">
+<title>생태 탐험 | 국립생태원 (NIE) — 스크롤 비행 & 차세대 생태 탐험 플랫폼</title>
+<meta name="description" content="국립생태원 4대 기후관과 생태계를 드론 항공 탐험 스크롤과 3D 인터랙션, 맞춤 동선 계산기, 앰비언스 사운드로 경험하세요.">
 <link rel="icon" href="data:,">
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/home.css">
+<link rel="stylesheet" href="css/components.css">
 <link rel="stylesheet" href="css/reserve.css">
 </head>
 <body data-page="home">
@@ -30,7 +31,7 @@
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         <input type="search" name="q" placeholder="생물·전시·프로그램 검색" aria-label="통합 검색">
       </form>
-      <a href="reservations.html" class="reserve-nav-link btn btn-ghost" style="padding:9px 14px; font-size:13px;">
+      <a href="reservations.html" class="reserve-nav-link btn btn-ghost" style="padding:9px 16px; font-size:13.5px;">
         내 예약
         <span class="reserve-badge" data-reserve-badge>0</span>
       </a>
@@ -42,24 +43,23 @@
 <main id="main">
 
   <!-- ============================================================
-       생태 탐험 헤더 — 스크롤 스크러빙 히어로
-       텍스트/버튼/텔레메트리는 고정(sticky), 배경 이미지 프레임만 스크롤에 반응
+       1. 드론 항공 스크롤 텔레메트리 히어로 (Drone Scrub Hero)
   ============================================================ -->
   <section class="scrub-hero" data-frame-count="80" data-frame-path="assets/frames/scrub_">
     <div class="scrub-stage">
       <canvas aria-hidden="true"></canvas>
-      <img class="scrub-fallback" alt="국립생태원 상공을 비행하는 드론 항공 촬영 장면">
+      <img class="scrub-fallback" alt="국립생태원 에코리움 상공 항공 드론 전경">
       <div class="scrim" aria-hidden="true"></div>
 
       <div class="scrub-hud">
         <div class="wrap">
           <div class="scrub-title">
-            <span class="eyebrow">생태 탐험 · Ecological Exploration</span>
-            <h1>자연을 탐험하고<br>생명의 이야기를 경험하세요</h1>
-            <p>국립생태원 상공 드론 항공 촬영 영상을 스크롤에 따라 직접 조종하듯 탐험해보세요. 열대부터 극지까지, 4대 기후대의 생태계가 눈앞에 펼쳐집니다.</p>
+            <span class="eyebrow">Drone Scrub Telemetry · Ecological Exploration</span>
+            <h1>자연을 탐험하고<br>생명의 숨결을 경험하세요</h1>
+            <p>스크롤을 조종간 삼아 국립생태원 상공을 직접 비행하며 탐험해 보세요. 열대부터 극지까지, 지구상 4대 기후대의 생태계가 감각적으로 펼쳐집니다.</p>
             <div class="scrub-actions">
-              <a href="#ecosystems" class="btn btn-amber">탐험 시작하기</a>
-              <a href="exhibition.html#reserve" class="btn btn-outline-invert" data-no-modal>예약하기</a>
+              <a href="#ecosystems" class="btn btn-amber">생태 탐험 시작하기</a>
+              <button type="button" class="btn btn-outline-invert" id="start-quiz-btn">🐾 나의 수호 생물 찾기 퀴즈</button>
             </div>
           </div>
         </div>
@@ -75,101 +75,121 @@
               <span class="t-value" data-t-coord>36.0075° N, 126.6917° E</span>
             </div>
             <div class="t-item">
-              <span class="t-label">Frame</span>
+              <span class="t-label">Flight Frame</span>
               <span class="t-value" data-t-frame>01 / 80</span>
             </div>
             <div class="t-bar"><i data-t-bar></i></div>
             <div class="t-item">
-              <span class="t-label">Site</span>
-              <span class="t-value">충남 서천 · 에코리움</span>
+              <span class="t-label">Location</span>
+              <span class="t-value">충남 서천 · 에코리움 파크</span>
             </div>
           </div>
         </div>
       </div>
 
       <div class="scrub-scrolldown" aria-hidden="true">
-        Scroll
+        Scroll Flight
         <span class="line"></span>
       </div>
     </div>
   </section>
 
   <!-- ============================================================
-       핵심 기능: 생태 탐험 — 기획서 "생태 탐험" 기능 정의 반영
+       2. 기후대별 생태 탐험 탭 & 3D 지도 연동 (Climate Zone Explorer)
   ============================================================ -->
   <section class="section" id="ecosystems">
     <div class="wrap">
-      <div class="section-head">
-        <span class="eyebrow">기후대별 생태 탐험</span>
-        <h2>4대 기후대 생태계와 생물,<br>전시와 교육으로 이어지는 배움</h2>
-        <p>열대부터 극지까지 국립생태원의 4대 기후관별 대표 생태계를 탐색해 보세요. 기후관을 선택하면 서식하는 다양한 생물들의 상세 정보와 특징을 확인할 수 있으며, 이와 연계된 전시, 체험 교육 프로그램 정보까지 자연스럽게 연결되어 아이들의 흥미로운 생태 학습을 돕습니다.</p>
-        <div class="data-tags" style="margin-top:18px;">
-        </div>
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">4대 기후대 인터랙티브 탐험</span>
+        <h2>열대부터 극지까지,<br>지구 생태계의 다양한 서식지</h2>
+        <p>열대·사막·온대·극지관 탭을 클릭하거나 조감도 지도의 핀을 터치하면 서식하는 생물과 관련 전시 정보가 실시간으로 연결됩니다. 앰비언스 사운드를 켜고 한층 더 생생하게 느껴보세요.</p>
       </div>
 
-      <div class="map-explore" style="margin-top:32px;" data-reveal>
-        <img src="assets/img/ecorium-dome-wide.jpg" alt="국립생태원 전체 구역 지도 — 열대·사막·온대·극지 생태관 위치 안내">
+      <div class="map-explore" style="margin-top:28px;" data-reveal>
+        <img src="assets/img/ecorium-dome-wide.jpg" alt="국립생태원 조감도 지도">
         <div id="map-pins" class="map-pins"></div>
       </div>
 
-      <div class="eco-tabs" role="tablist" aria-label="생태계 기후대 선택" id="eco-tabs" style="margin-top:36px;">
-        <!-- data/ecosystems.json 기반으로 JS가 자동 생성합니다 -->
-        <span style="color:var(--ink-soft); font-size:13.5px;">생태계 데이터를 불러오는 중…</span>
+      <div class="eco-tabs" role="tablist" aria-label="기후대 선택" id="eco-tabs" style="margin-top:36px;">
+        <!-- JS로 4대 기후대 탭 자동 생성 -->
       </div>
 
       <div id="eco-panel" role="tabpanel" tabindex="0" aria-live="polite">
-        <!-- 선택한 기후대의 대표 생물이 JS로 렌더링됩니다 -->
+        <!-- JS로 선택된 기후대의 3D 카드와 생물 렌더링 -->
       </div>
 
     </div>
   </section>
 
   <!-- ============================================================
-       연계 프로그램 및 연구
+       3. 사용자 맞춤 관람동선 플래너 (Custom Route Calculator)
   ============================================================ -->
-  <section class="section">
+  <section class="section section-alt">
     <div class="wrap">
-      <div class="section-head">
-        <span class="eyebrow">연계 프로그램 및 연구</span>
-        <h2>탐험은 전시·교육·연구로 이어집니다</h2>
-        <p>관심 있는 기후관을 둘러봤다면, 관련된 전시·교육 프로그램과 최신 연구자료로 자연스럽게 이어서 살펴보세요.</p>
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">Interactive Route Calculator</span>
+        <h2>방문 조건에 맞는 최적의 동선 플래너</h2>
+        <p>함께 방문하는 인원과 소요 시간에 따라 동선, 소요 시간, 걸음 수 및 추천 스팟을 한눈에 계산해 드립니다.</p>
       </div>
-      <div class="info-tiles" id="linked-programs">
-        <!-- data/*.json 기반 연계 콘텐츠가 JS로 렌더링됩니다 -->
+
+      <div id="route-calculator" class="route-calculator-panel" data-reveal>
+        <div class="route-calc-controls">
+          <div class="route-calc-group">
+            <label for="calc-target-select">동반자 유형</label>
+            <select id="calc-target-select" name="calc-target">
+              <option value="family">가족 (어린이 동반)</option>
+              <option value="couple">연인 / 친구</option>
+              <option value="solo">나홀로 탐험가</option>
+              <option value="senior">노약자 / 편의시설 우선</option>
+            </select>
+          </div>
+          <div class="route-calc-group">
+            <label for="calc-time-select">희망 관람 시간</label>
+            <select id="calc-time-select" name="calc-time">
+              <option value="60">1시간 (핵심 엑기스 코스)</option>
+              <option value="120" selected>2시간 (여유로운 알짜 코스)</option>
+              <option value="240">반나절 (전체 심층 탐험)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="route-calc-output">
+          <!-- JS로 동적 계산 결과 시각화 -->
+        </div>
       </div>
     </div>
   </section>
 
   <!-- ============================================================
-       관람 및 체험 안내
+       4. 관람 및 체험 예약 안내
   ============================================================ -->
   <section class="section section-dark">
     <div class="wrap">
-      <div class="section-head">
-        <span class="eyebrow">관람 및 체험 안내</span>
-        <h2>가족과 함께하는<br>완벽한 생태 탐험을 준비하세요</h2>
+      <div class="section-head" data-reveal>
+        <span class="eyebrow">Visitor Guide & Reservations</span>
+        <h2>가족과 함께 떠나는 완벽한 생태 여행</h2>
       </div>
       <div class="info-tiles">
-        <a href="exhibition.html" class="info-tile" data-parallax style="background:rgba(255,255,255,.05); border-color:rgba(255,255,255,.16); color:#fff;">
-          <div class="tile-icon" style="background:rgba(255,255,255,.12); color:#fff;" aria-hidden="true">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 20l-5.5 3V7L9 4m0 16l6 3M9 20V4m6 3l5.5-3v16L15 23m0-16v16"/></svg>
+        <a href="exhibition.html" class="info-tile" data-parallax style="background:rgba(255,255,255,0.06); border-color:rgba(255,255,255,0.18); color:#fff;">
+          <div class="tile-icon" style="background:rgba(255,255,255,0.14); color:#fff;" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 20l-5.5 3V7L9 4m0 16l6 3M9 20V4m6 3l5.5-3v16L15 23m0-16v16"/></svg>
           </div>
-          <h3 style="color:#fff;">전시관 안내</h3>
-          <p style="color:var(--sage-300);">각 기후별 전시관의 특징과 위치, 운영 시간을 상세히 확인하세요.</p>
+          <h3 style="color:#fff;">전시관 시설 안내</h3>
+          <p style="color:var(--sage-300);">각 기후별 온실관의 특징과 운영 시간, 이용 요금을 미리 확인하세요.</p>
         </a>
-        <a href="exhibition.html#route" class="info-tile is-highlight" data-parallax style="background:rgba(192,140,62,.14); border-color:var(--amber); color:#fff;">
+        <a href="exhibition.html#route" class="info-tile is-highlight" data-parallax style="background:rgba(226,168,75,0.16); border-color:var(--amber); color:#fff;">
           <div class="tile-icon" style="background:var(--amber); color:#241a08;" aria-hidden="true">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
           </div>
-          <h3 style="color:#fff;">추천 관람동선 (가족용)</h3>
-          <p style="color:var(--sage-300);">아이들과 함께 편안하고 유익하게 즐길 수 있는 최적의 코스를 안내해 드립니다.</p>
+          <h3 style="color:#fff;">추천 관람 동선</h3>
+          <p style="color:var(--sage-200);">아이들과 지루함 없이 둘러볼 수 있는 최적의 산책 코스를 확인해보세요.</p>
         </a>
-        <a href="education.html" class="info-tile" data-parallax style="background:rgba(255,255,255,.05); border-color:rgba(255,255,255,.16); color:#fff;">
-          <div class="tile-icon" style="background:rgba(255,255,255,.12); color:#fff;" aria-hidden="true">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg>
+        <a href="education.html" class="info-tile" data-parallax style="background:rgba(255,255,255,0.06); border-color:rgba(255,255,255,0.18); color:#fff;">
+          <div class="tile-icon" style="background:rgba(255,255,255,0.14); color:#fff;" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg>
           </div>
-          <h3 style="color:#fff;">교육 프로그램 예약</h3>
-          <p style="color:var(--sage-300);">다양한 주제의 생태 체험 교육 프로그램을 확인하고 간편하게 예약하세요.</p>
+          <h3 style="color:#fff;">체험 교육 예약</h3>
+          <p style="color:var(--sage-300);">숲 생태 탐험대, 식물학자 체험 등 다채로운 프로그램을 온라인으로 간편하게 신청하세요.</p>
         </a>
       </div>
     </div>
@@ -198,7 +218,7 @@
       </address>
       <img class="wa-mark" src="assets/img/wa-mark.png" alt="웹 접근성 우수사이트 인증마크">
     </div>
-    <p style="margin-top:18px; font-size:12px; color:rgba(215,226,207,.5);">© National Institute of Ecology. All Rights Reserved.</p>
+    <p style="margin-top:20px; font-size:12.5px; color:rgba(220,232,213,0.5);">© National Institute of Ecology. All Rights Reserved.</p>
   </div>
 </footer>
 
@@ -206,6 +226,7 @@
 <script src="js/tilt.js"></script>
 <script src="js/scrub.js"></script>
 <script src="js/parallax.js"></script>
+<script src="js/chart.js"></script>
 <script src="js/data.js"></script>
 <script src="js/reserve.js"></script>
 <script src="js/scrollscrub.js"></script>
